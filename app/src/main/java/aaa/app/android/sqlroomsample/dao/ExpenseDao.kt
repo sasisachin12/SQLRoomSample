@@ -12,16 +12,16 @@ import androidx.room.Query
 interface ExpenseDao {
 
 
-    @Query("Select * from expense_table ORDER BY id ASC")
+    @Query("Select * from expense_table ORDER BY id DESC")
     fun getAllExpense(): LiveData<List<ExpenseInfo>>
 
 
-    @Query("Select * from expense_table ORDER BY id ASC")
+    @Query("Select * from expense_table ORDER BY id DESC")
     fun getExpense(): List<ExpenseInfo>
 
 
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun  insert(expenseInfo: ExpenseInfo):Long
 
     @Query("DELETE FROM expense_table")
