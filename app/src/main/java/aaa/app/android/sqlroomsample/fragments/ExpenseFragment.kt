@@ -2,6 +2,7 @@ package aaa.app.android.sqlroomsample.fragments
 
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
+import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentDate
 import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
 import android.app.DatePickerDialog
@@ -16,6 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_expense.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -68,14 +70,17 @@ class ExpenseFragment : Fragment() {
 
             picker = DatePickerDialog(
                 requireActivity(),
-                { _, _, _, _ ->
-                    expense_date.text = getCurrentDate()
+                { view, year, month, day ->
+                    val dateFormatter = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
+                    val d = Date(year, month, day)
+                    val strDate: String = dateFormatter.format(d)
+                    expense_date.text = strDate
                 },
                 year,
                 month,
                 day
             )
-            picker!!.show()
+            picker?.show()
 
 
         }
