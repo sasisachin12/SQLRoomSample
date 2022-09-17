@@ -20,6 +20,11 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class ExpenseListFragment : Fragment(), ItemClickListener {
 
     private lateinit var expenseViewModel: ExpenseViewModel
+    private var allExpenseList = mutableListOf<ExpenseInfo>()
+    private var dateState = false
+    private var expenseState = false
+    private var amountState = false
+    private var orderedList:List<ExpenseInfo> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,11 +45,60 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
 
         expenseViewModel.allExpenses.observe(viewLifecycleOwner, Observer<List<ExpenseInfo>>
         { expenseList ->
+            allExpenseList.clear()
             val totalAmount: Int = expenseList.sumOf { it.amount.toInt() }
             display_amount.text = totalAmount.toString()
+            allExpenseList.addAll(expenseList)
             expenseList?.let { adapter.setWords(it) }
         })
 
+        date.setOnClickListener {
+            dateState = !dateState
+            orderedList = if (dateState) {
+                date.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_keyboard_arrow_up_24,0)
+                allExpenseList.sortedBy {
+                    it.date
+                }
+            } else {
+                date.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_keyboard_arrow_down_24,0)
+                allExpenseList.sortedByDescending {
+                    it.date
+                }
+            }
+
+            adapter.setWords(orderedList)
+
+        }
+        expense.setOnClickListener {
+            expenseState = !expenseState
+            orderedList = if (expenseState) {
+                expense.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_keyboard_arrow_up_24,0)
+                allExpenseList.sortedBy {
+                    it.expense
+                }
+            } else {
+                expense.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_keyboard_arrow_down_24,0)
+                allExpenseList.sortedByDescending {
+                    it.expense
+                }
+            }
+            adapter.setWords(orderedList)
+        }
+        expense_amount.setOnClickListener {
+            amountState = !amountState
+            orderedList = if (amountState) {
+                expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_keyboard_arrow_up_24,0)
+                allExpenseList.sortedBy {
+                    it.amount
+                }
+            } else {
+                expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_keyboard_arrow_down_24,0)
+                allExpenseList.sortedByDescending {
+                    it.amount
+                }
+            }
+            adapter.setWords(orderedList)
+        }
 
     }
 
