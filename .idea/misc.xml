@@ -8,9 +8,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/DELL/AndroidStudioProjects/SQLRoomSample/app/src/main/res/drawable/sort_selector.xml" value="0.276" />
-        <entry key="..\:/Users/DELL/AndroidStudioProjects/SQLRoomSample/app/src/main/res/layout/fragment_expense.xml" value="0.2418478260869565" />
-        <entry key="..\:/Users/DELL/AndroidStudioProjects/SQLRoomSample/app/src/main/res/layout/fragment_home.xml" value="0.4" />
         <entry key="app/src/main/res/drawable/round_button.xml" value="0.2245" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.19021739130434784" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.24114583333333334" />
