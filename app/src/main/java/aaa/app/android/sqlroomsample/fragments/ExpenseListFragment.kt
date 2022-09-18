@@ -79,7 +79,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
         }
 
         expense_amount.setOnClickListener {
-
+            amountFilter = !amountFilter
             setAmountDrawable(amountFilter)
             orderedList = if (amountFilter) {
                 originalList.sortedBy {
@@ -93,7 +93,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
 
             }
             adapter.setAdapter(orderedList)
-            amountFilter = !amountFilter
+
         }
 
 
