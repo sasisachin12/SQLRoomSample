@@ -46,11 +46,13 @@ class ExpenseFragment : Fragment() {
         insertResponse.observe(
             viewLifecycleOwner
         ) {
-            Toast.makeText(
-                requireActivity(),
-                R.string.added_success_msg,
-                Toast.LENGTH_LONG
-            ).show()
+            if (expense_for.text!!.isNotEmpty() && expense_amount.text!!.isNotEmpty()){
+                Toast.makeText(
+                    requireActivity(),
+                    "Expense Added Successfully",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             expense_for.text?.clear()
             expense_amount.text?.clear()
         }

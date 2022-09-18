@@ -40,7 +40,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
 
         expenseViewModel.allExpenses.observe(viewLifecycleOwner, Observer<List<ExpenseInfo>>
         { expenseList ->
-            val totalAmount: Int = expenseList.sumOf { it.amount.toInt() }
+            val totalAmount: Long = expenseList.sumOf { it.amount.toLong() }
             display_amount.text = totalAmount.toString()
             expenseList?.let { adapter.setWords(it) }
         })
