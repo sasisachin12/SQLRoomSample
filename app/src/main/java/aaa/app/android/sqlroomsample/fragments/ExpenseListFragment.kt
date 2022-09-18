@@ -112,7 +112,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.ic_baseline_keyboard_arrow_up_24,
+                R.drawable.ic_arrow_up,
                 0
             )
 
@@ -120,7 +120,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.ic_baseline_keyboard_arrow_down_24,
+                R.drawable.ic_arrow_down,
                 0
             )
         }
@@ -134,7 +134,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             expense.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.ic_baseline_keyboard_arrow_up_24,
+                R.drawable.ic_arrow_up,
                 0
             )
 
@@ -142,7 +142,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             expense.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.ic_baseline_keyboard_arrow_down_24,
+                R.drawable.ic_arrow_down,
                 0
             )
         }
@@ -156,7 +156,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             date.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.ic_baseline_keyboard_arrow_up_24,
+                R.drawable.ic_arrow_up,
                 0
             )
 
@@ -164,7 +164,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             date.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
-                R.drawable.ic_baseline_keyboard_arrow_down_24,
+                R.drawable.ic_arrow_down,
                 0
             )
         }
