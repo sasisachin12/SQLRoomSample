@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +23,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
     private var expenseFilter = false
     private var amountFilter = false
     private var orderedList = emptyList<ExpenseInfo>()
-
+    private val originalList = mutableListOf<ExpenseInfo>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -42,59 +41,60 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
         recyclerview.layoutManager = LinearLayoutManager(requireActivity())
 
 
-        expenseViewModel.allExpenses.observe(viewLifecycleOwner, Observer<List<ExpenseInfo>>
-        { expenseList ->
-
+        expenseViewModel.allExpenses.observe(viewLifecycleOwner) { expenseList ->
             val totalAmount: Int = expenseList.sumOf { it.amount.toInt() }
             display_amount.text = totalAmount.toString()
-            expenseList?.let { adapter.setWords(it) }
-
-            date.setOnClickListener {
-                dateFilter = !dateFilter
-                setDateDrawable(dateFilter)
-                orderedList = if (dateFilter) {
-                    expenseList.sortedBy {
-                        it.date
-                    }
-                } else {
-                    expenseList.sortedByDescending {
-                        it.date
-                    }
+            expenseList?.let { adapter.setAdapter(it) }
+            originalList.clear()
+            originalList.addAll(expenseList)
+        }
+        date.setOnClickListener {
+            dateFilter = !dateFilter
+            setDateDrawable(dateFilter)
+            orderedList = if (dateFilter) {
+                originalList.sortedBy {
+                    it.date
                 }
-                adapter.setWords(orderedList)
-            }
-
-            expense.setOnClickListener {
-                expenseFilter = !expenseFilter
-                setExpenseDrawable(expenseFilter)
-                orderedList = if (expenseFilter) {
-                    expenseList.sortedBy {
-                        it.expense
-                    }
-                } else {
-                    expenseList.sortedByDescending {
-                        it.expense
-                    }
+            } else {
+                originalList.sortedByDescending {
+                    it.date
                 }
-                adapter.setWords(orderedList)
             }
+            adapter.setAdapter(orderedList)
+        }
 
-            expense_amount.setOnClickListener {
-                amountFilter = !amountFilter
-                setAmountDrawable(amountFilter)
-                orderedList = if (amountFilter) {
-                    expenseList.sortedBy {
-                        it.amount
-                    }
-                } else {
-                    expenseList.sortedByDescending {
-                        it.amount
-                    }
+        expense.setOnClickListener {
+            expenseFilter = !expenseFilter
+            setExpenseDrawable(expenseFilter)
+            orderedList = if (expenseFilter) {
+                originalList.sortedBy {
+                    it.expense
+                }.toMutableList()
+            } else {
+                originalList.sortedByDescending {
+                    it.expense
+                }.toMutableList()
+            }
+            adapter.setAdapter(orderedList)
+        }
+
+        expense_amount.setOnClickListener {
+            amountFilter = !amountFilter
+            setAmountDrawable(amountFilter)
+            orderedList = if (amountFilter) {
+                originalList.sortedBy {
+                    it.amount.toInt()
                 }
-                adapter.setWords(orderedList)
-            }
 
-        })
+            } else {
+                originalList.sortedByDescending {
+                    it.amount.toInt()
+                }
+
+            }
+            adapter.setAdapter(orderedList)
+
+        }
 
 
     }
