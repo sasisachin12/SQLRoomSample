@@ -20,9 +20,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class ExpenseListFragment : Fragment(), ItemClickListener {
 
     private lateinit var expenseViewModel: ExpenseViewModel
-    private var dateState = false
-    private var expenseState = false
-    private var amountState = false
+    private var dateFilter = false
+    private var expenseFilter = false
+    private var amountFilter = false
     private var orderedList = emptyList<ExpenseInfo>()
 
     override fun onCreateView(
@@ -50,9 +50,9 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             expenseList?.let { adapter.setWords(it) }
 
             date.setOnClickListener {
-                dateState = !dateState
-                setDateDrawable(dateState)
-                orderedList = if (dateState) {
+                dateFilter = !dateFilter
+                setDateDrawable(dateFilter)
+                orderedList = if (dateFilter) {
                     expenseList.sortedBy {
                         it.date
                     }
@@ -65,9 +65,9 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             }
 
             expense.setOnClickListener {
-                expenseState = !expenseState
-                setExpenseDrawable(expenseState)
-                orderedList = if (expenseState) {
+                expenseFilter = !expenseFilter
+                setExpenseDrawable(expenseFilter)
+                orderedList = if (expenseFilter) {
                     expenseList.sortedBy {
                         it.expense
                     }
@@ -80,9 +80,9 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             }
 
             expense_amount.setOnClickListener {
-                amountState = !amountState
-                setAmountDrawable(amountState)
-                orderedList = if (amountState) {
+                amountFilter = !amountFilter
+                setAmountDrawable(amountFilter)
+                orderedList = if (amountFilter) {
                     expenseList.sortedBy {
                         it.amount
                     }
