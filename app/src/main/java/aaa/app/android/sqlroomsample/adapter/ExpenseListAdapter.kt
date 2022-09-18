@@ -2,6 +2,7 @@ package aaa.app.android.sqlroomsample.adapter
 
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class ExpenseListAdapter internal constructor(
-    context: Context,val itemClickListener: ItemClickListener
+    context: Context, val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -42,9 +43,10 @@ class ExpenseListAdapter internal constructor(
 
     }
 
-    internal fun setWords(expenseInfo: List<ExpenseInfo>) {
+    @SuppressLint("NotifyDataSetChanged")
+    internal fun setAdapter(expenseInfo: List<ExpenseInfo>) {
         this.expenseList = expenseInfo
-        notifyDataSetChanged()
+        this.notifyDataSetChanged()
     }
 
     override fun getItemCount() = expenseList.size
