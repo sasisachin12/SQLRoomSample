@@ -20,6 +20,10 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class ExpenseListFragment : Fragment(), ItemClickListener {
 
     private lateinit var expenseViewModel: ExpenseViewModel
+    private var dateFilter = false
+    private var expenseFilter = false
+    private var amountFilter = false
+    private var orderedList = emptyList<ExpenseInfo>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +44,56 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
 
         expenseViewModel.allExpenses.observe(viewLifecycleOwner, Observer<List<ExpenseInfo>>
         { expenseList ->
+
             val totalAmount: Int = expenseList.sumOf { it.amount.toInt() }
             display_amount.text = totalAmount.toString()
             expenseList?.let { adapter.setWords(it) }
+
+            date.setOnClickListener {
+                dateFilter = !dateFilter
+                setDateDrawable(dateFilter)
+                orderedList = if (dateFilter) {
+                    expenseList.sortedBy {
+                        it.date
+                    }
+                } else {
+                    expenseList.sortedByDescending {
+                        it.date
+                    }
+                }
+                adapter.setWords(orderedList)
+            }
+
+            expense.setOnClickListener {
+                expenseFilter = !expenseFilter
+                setExpenseDrawable(expenseFilter)
+                orderedList = if (expenseFilter) {
+                    expenseList.sortedBy {
+                        it.expense
+                    }
+                } else {
+                    expenseList.sortedByDescending {
+                        it.expense
+                    }
+                }
+                adapter.setWords(orderedList)
+            }
+
+            expense_amount.setOnClickListener {
+                amountFilter = !amountFilter
+                setAmountDrawable(amountFilter)
+                orderedList = if (amountFilter) {
+                    expenseList.sortedBy {
+                        it.amount
+                    }
+                } else {
+                    expenseList.sortedByDescending {
+                        it.amount
+                    }
+                }
+                adapter.setWords(orderedList)
+            }
+
         })
 
 
@@ -54,5 +105,70 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
                 item.id?.let { expenseViewModel.deleteByID(it) }
             }
         }
+    }
+
+    private fun setAmountDrawable(state: Boolean) {
+        if (state) {
+            expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_up,
+                0
+            )
+
+        } else {
+            expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_down,
+                0
+            )
+        }
+        date.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        expense.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+
+    }
+
+    private fun setExpenseDrawable(state: Boolean) {
+        if (state) {
+            expense.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_up,
+                0
+            )
+
+        } else {
+            expense.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_down,
+                0
+            )
+        }
+        date.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+
+    }
+
+    private fun setDateDrawable(state: Boolean) {
+        if (state) {
+            date.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_up,
+                0
+            )
+
+        } else {
+            date.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_down,
+                0
+            )
+        }
+        expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        expense.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
     }
 }
