@@ -42,27 +42,34 @@
         android:background="@drawable/round_edittext"
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:padding="@dimen/dimen_8dp"
+        android:padding="10dp"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/textview_sign_in"
         app:layout_constraintStart_toStartOf="@+id/textview_sign_in"
         app:layout_constraintTop_toBottomOf="@id/textview_sign_in"
         tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/input_layout_password"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    app:layout_constraintEnd_toEndOf="@+id/edit_text_username"
+    app:layout_constraintStart_toStartOf="@+id/edit_text_username"
+    app:layout_constraintTop_toBottomOf="@id/edit_text_username"
+    app:passwordToggleEnabled="true">
 
     <EditText
         android:id="@+id/edit_text_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/round_edittext"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="@dimen/dimen_8dp"
-        app:layout_constraintEnd_toEndOf="@+id/edit_text_username"
-        app:layout_constraintStart_toStartOf="@+id/edit_text_username"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_username"
         tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_sign_in"
@@ -72,9 +79,9 @@
         android:background="@drawable/round_button"
         android:text="@string/Login"
         android:textColor="@color/buttonLabel"
-        app:layout_constraintEnd_toEndOf="@+id/edit_text_password"
-        app:layout_constraintStart_toStartOf="@+id/edit_text_password"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_password" />
+        app:layout_constraintEnd_toEndOf="@id/input_layout_password"
+        app:layout_constraintStart_toStartOf="@id/input_layout_password"
+        app:layout_constraintTop_toBottomOf="@id/input_layout_password" />
 
 
 
