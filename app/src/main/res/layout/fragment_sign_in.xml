@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SignInFragment">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.1" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
 
 
     <TextView
@@ -49,25 +49,25 @@
         app:layout_constraintTop_toBottomOf="@id/textview_sign_in"
         tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
-<com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/input_layout_password"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    app:layout_constraintEnd_toEndOf="@+id/edit_text_username"
-    app:layout_constraintStart_toStartOf="@+id/edit_text_username"
-    app:layout_constraintTop_toBottomOf="@id/edit_text_username"
-    app:passwordToggleEnabled="true">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/edit_text_username"
+        app:layout_constraintStart_toStartOf="@+id/edit_text_username"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_username"
+        app:passwordToggleEnabled="true">
 
-    <EditText
-        android:id="@+id/edit_text_password"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/round_edittext"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:padding="@dimen/dimen_8dp"
-        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+        <EditText
+            android:id="@+id/edit_text_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/round_edittext"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="@dimen/dimen_8dp"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,15 +77,38 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@drawable/round_button"
-        android:text="@string/Login"
+        android:text="@string/button_login"
         android:textColor="@color/buttonLabel"
         app:layout_constraintEnd_toEndOf="@id/input_layout_password"
         app:layout_constraintStart_toStartOf="@id/input_layout_password"
         app:layout_constraintTop_toBottomOf="@id/input_layout_password" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/new_account"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/button_sign_in" />
 
+    <TextView
+        android:id="@+id/textview_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/sign_up"
+        android:textColor="@color/link_color"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/button_sign_in" />
 
-
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
