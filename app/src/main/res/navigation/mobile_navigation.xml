@@ -6,12 +6,12 @@
     app:startDestination="@id/expenseFragment">
 
     <fragment
-        android:id="@+id/expenseFragment"
+        android:id="@id/expenseFragment"
         android:name="aaa.app.android.sqlroomsample.fragments.ExpenseFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_expense" />
     <fragment
-        android:id="@+id/expenseListFragment"
+        android:id="@id/expenseListFragment"
         android:name="aaa.app.android.sqlroomsample.fragments.ExpenseListFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />

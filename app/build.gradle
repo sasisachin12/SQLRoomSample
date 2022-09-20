@@ -11,6 +11,10 @@ android {
         }
     }
 
+    buildFeatures{
+        viewBinding true
+    }
+
 
     defaultConfig {
         applicationId "aaa.app.android.sqlroomsample"
