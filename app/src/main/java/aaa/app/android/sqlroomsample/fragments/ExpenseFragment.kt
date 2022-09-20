@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class ExpenseFragment : Fragment() {
+class ExpenseFragment : Fragment(R.layout.fragment_expense) {
 
     private lateinit var expenseViewModel: ExpenseViewModel
 
@@ -29,14 +29,6 @@ class ExpenseFragment : Fragment() {
 
 
     private var picker: DatePickerDialog? = null
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-
-        expenseViewModel = ViewModelProvider(requireActivity())[ExpenseViewModel::class.java]
-        return inflater.inflate(R.layout.fragment_expense, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

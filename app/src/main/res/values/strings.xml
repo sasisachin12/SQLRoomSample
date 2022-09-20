@@ -14,4 +14,6 @@
     <string name="select_time">Select Time</string>
     <string name="expense_amount">Expense Amount</string>
     <string name="input_expense_details">Input Expense Details</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
