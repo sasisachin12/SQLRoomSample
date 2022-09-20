@@ -61,6 +61,7 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
                 }
             }
             adapter.setAdapter(orderedList)
+            //coment here
         }
 
         expense.setOnClickListener {
