@@ -43,7 +43,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/expense_amount"
+            android:id="@+id/et_expense_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

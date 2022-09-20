@@ -42,7 +42,7 @@ class ExpenseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        expense_date.text = getCurrentDate()
+//        et_expense_date.text = getCurrentDate()
         insertResponse.observe(
             viewLifecycleOwner
         ) {
@@ -51,8 +51,8 @@ class ExpenseFragment : Fragment() {
                 R.string.added_success_msg,
                 Toast.LENGTH_LONG
             ).show()
-            expense_for.text?.clear()
-            expense_amount.text?.clear()
+            et_expense_for.text?.clear()
+            et_expense_amount.text?.clear()
         }
 
 
@@ -60,7 +60,7 @@ class ExpenseFragment : Fragment() {
 
 
 
-        expense_date.setOnClickListener {
+        et_expense_date.setOnClickListener {
 
             val calendar = Calendar.getInstance()
             val day = calendar[Calendar.DAY_OF_MONTH]
@@ -74,7 +74,7 @@ class ExpenseFragment : Fragment() {
                     val dateFormatter = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
                     val d = Date(year, month, day)
                     val strDate: String = dateFormatter.format(d)
-                    expense_date.text = strDate
+//                    et_expense_date.text = strDate
                 },
                 year,
                 month,
@@ -82,21 +82,15 @@ class ExpenseFragment : Fragment() {
             )
             picker?.show()
 
-
         }
-
-
-
-
-
 
 
 
         button_save.setOnClickListener {
 
-            val date = expense_date.text.toString()
-            val expense = expense_for.text.toString()
-            val expenseAmount = expense_amount.text.toString()
+            val date = et_expense_date.text.toString()
+            val expense = et_expense_for.text.toString()
+            val expenseAmount = et_expense_amount.text.toString()
             if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(expense) && !TextUtils.isEmpty(
                     expenseAmount
                 )
