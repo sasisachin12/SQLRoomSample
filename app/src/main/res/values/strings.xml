@@ -10,4 +10,18 @@
     <string name="title_home">Reports</string>
     <string name="title_dashboard">Expense</string>
     <string name="title_notifications">Wallet</string>
+
+    <string name="sign_up_surname">Surname</string>
+    <string name="sign_up_first_name">First Name</string>
+    <string name="sign_up_user_name">Username</string>
+    <string name="sign_up_email">Email</string>
+    <string name="sign_up_password">Password</string>
+    <string name="sign_up_btn_txt">Sign Up</string>
+    <string name="sign_up_existing_account_text">Already have an account?</string>
+    <string name="sign_up_sign_in_prompt">Sign In</string>
+    <string name="sign_up_note">Aloha!</string>
+    <string name="sign_up_sub_note">Please enter your details to sign up</string>
+    <string name="sign_up_confirm_password">Confirm Password</string>
+    <string name="sign_up_phone_number">Phone Number</string>
+
 </resources>

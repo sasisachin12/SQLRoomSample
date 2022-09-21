@@ -28,6 +28,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
+
 
 }
 
@@ -70,5 +74,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
 
+//UI Country Code Picker
+    implementation 'com.hbb20:ccp:2.5.4'
 
 }
