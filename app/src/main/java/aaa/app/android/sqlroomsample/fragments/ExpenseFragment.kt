@@ -3,8 +3,12 @@ package aaa.app.android.sqlroomsample.fragments
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.databinding.FragmentExpenseBinding
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
-import aaa.app.android.sqlroomsample.util.transformIntoDatePicker
-import aaa.app.android.sqlroomsample.util.transformIntoTimePicker
+import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
+import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
+import aaa.app.android.sqlroomsample.util.Utils.getCurrentDate
+import aaa.app.android.sqlroomsample.util.Utils.getCurrentTime
+import aaa.app.android.sqlroomsample.util.Utils.transformIntoDatePicker
+import aaa.app.android.sqlroomsample.util.Utils.transformIntoTimePicker
 import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
 import android.os.Bundle
 import android.text.TextUtils
@@ -12,6 +16,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.android.synthetic.main.fragment_expense.*
 
@@ -29,24 +34,24 @@ class ExpenseFragment : Fragment(R.layout.fragment_expense) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentExpenseBinding.bind(view)
+        expenseViewModel = ViewModelProvider(requireActivity())[ExpenseViewModel::class.java]
+        binding.etExpenseDate.transformIntoDatePicker(requireContext(), DATE_FORMAT_ONE)
+        binding.etExpenseTime.transformIntoTimePicker(requireContext(), TIME_FORMAT_ONE)
+        binding.etExpenseDate.setText(getCurrentDate())
+        binding.etExpenseTime.setText(getCurrentTime())
 
-        binding.etExpenseDate.transformIntoDatePicker(requireContext(), "MM/dd/yyyy")
-        binding.etExpenseTime.transformIntoTimePicker(requireContext(), "hh.mm a")
 
-
-//        et_expense_date.text = getCurrentDate()
-//        insertResponse.observe(
-//            viewLifecycleOwner
-//        ) {
-//            Toast.makeText(
-//                requireActivity(),
-//                R.string.added_success_msg,
-//                Toast.LENGTH_LONG
-//            ).show()
-//            et_expense_for.text?.clear()
-//            et_expense_amount.text?.clear()
-//        }
-
+        insertResponse.observe(
+            viewLifecycleOwner
+        ) {
+            Toast.makeText(
+                requireActivity(),
+                R.string.added_success_msg,
+                Toast.LENGTH_LONG
+            ).show()
+            et_expense_for.text?.clear()
+            et_expense_amount.text?.clear()
+        }
 
 
         button_save.setOnClickListener {
@@ -80,6 +85,7 @@ class ExpenseFragment : Fragment(R.layout.fragment_expense) {
 
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
