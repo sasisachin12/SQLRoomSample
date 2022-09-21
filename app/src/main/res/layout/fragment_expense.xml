@@ -5,74 +5,114 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_one"
-    tools:context=".fragments.ExpenseFragment">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guide_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+    tools:context=".fragments.ExpenseFragment"
+    android:paddingVertical="@dimen/dimen_64dp"
+    android:paddingHorizontal="@dimen/dimen_16dp">
 
 
     <TextView
-        android:id="@+id/expense_date"
+        android:id="@+id/tv_expense_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:drawableRight="@drawable/calendar"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:hint="@string/expense_type"
         android:minHeight="@dimen/min_height"
-        android:text="Select Date"
+        android:text="@string/input_expense_details"
         android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guide_one" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/expense_for"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/round_edittext"
-        android:fontFamily="sans-serif-light"
-        android:hint="@string/expense_type"
-        android:padding="@dimen/dimen_8dp"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/expense_date" />
-
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/expense_amount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/round_edittext"
-        android:hint="Expense Amount"
-        android:inputType="number"
-        android:padding="@dimen/dimen_8dp"
-        app:layout_constraintTop_toBottomOf="@+id/expense_for" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/round_button"
         android:text="@string/button_save"
         android:textColor="@color/buttonLabel"
-        app:layout_constraintTop_toBottomOf="@+id/expense_amount" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_expense_amount" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_expense_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginTop="16dp"
+        app:endIconDrawable="@drawable/ic_calender"
+        app:endIconMode="custom"
+        app:layout_constraintTop_toBottomOf="@+id/tv_expense_date"
+        app:placeholderText="@string/select_date"
+        tools:layout_editor_absoluteX="-3dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_expense_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:hint="@string/select_date" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_expense_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:endIconMode="custom"
+        android:layout_marginTop="16dp"
+        app:endIconDrawable="@drawable/ic_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_expense_date">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_expense_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/select_time" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_expense_for"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_expense_time">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_expense_for"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/expense_type"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_expense_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_expense_for">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_expense_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/expense_amount"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

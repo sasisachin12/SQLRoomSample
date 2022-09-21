@@ -21,7 +21,7 @@ class ExpenseListAdapter internal constructor(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val vdate: TextView = itemView.findViewById(R.id.date)
         val expense: TextView = itemView.findViewById(R.id.expense)
-        val expense_amount: TextView = itemView.findViewById(R.id.expense_amount)
+        val expense_amount: TextView = itemView.findViewById(R.id.et_expense_amount)
         val delete: ImageView = itemView.findViewById(R.id.delete)
     }
 
