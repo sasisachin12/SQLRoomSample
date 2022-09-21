@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,53 +49,53 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
             originalList.clear()
             originalList.addAll(expenseList)
         }
-//        date.setOnClickListener {
-//            dateFilter = !dateFilter
-//            setDateDrawable(dateFilter)
-//            orderedList = if (dateFilter) {
-//                originalList.sortedBy {
-//                    it.date
-//                }
-//            } else {
-//                originalList.sortedByDescending {
-//                    it.date
-//                }
-//            }
-//            adapter.setAdapter(orderedList)
-//        }
+        date.setOnClickListener {
+            dateFilter = !dateFilter
+            setDateDrawable(dateFilter)
+            orderedList = if (dateFilter) {
+                originalList.sortedBy {
+                    it.date
+                }
+            } else {
+                originalList.sortedByDescending {
+                    it.date
+                }
+            }
+            adapter.setAdapter(orderedList)
+        }
 
-//        expense.setOnClickListener {
-//            expenseFilter = !expenseFilter
-//            setExpenseDrawable(expenseFilter)
-//            orderedList = if (expenseFilter) {
-//                originalList.sortedBy {
-//                    it.expense
-//                }.toMutableList()
-//            } else {
-//                originalList.sortedByDescending {
-//                    it.expense
-//                }.toMutableList()
-//            }
-//            adapter.setAdapter(orderedList)
-//        }
+        expense.setOnClickListener {
+            expenseFilter = !expenseFilter
+            setExpenseDrawable(expenseFilter)
+            orderedList = if (expenseFilter) {
+                originalList.sortedBy {
+                    it.expense
+                }.toMutableList()
+            } else {
+                originalList.sortedByDescending {
+                    it.expense
+                }.toMutableList()
+            }
+            adapter.setAdapter(orderedList)
+        }
 
-//        expense_amount.setOnClickListener {
-//            amountFilter = !amountFilter
-//            setAmountDrawable(amountFilter)
-//            orderedList = if (amountFilter) {
-//                originalList.sortedBy {
-//                    it.amount.toInt()
-//                }
-//
-//            } else {
-//                originalList.sortedByDescending {
-//                    it.amount.toInt()
-//                }
-//
-//            }
-//            adapter.setAdapter(orderedList)
-//
-//        }
+        expense_amount.setOnClickListener {
+            amountFilter = !amountFilter
+            setAmountDrawable(amountFilter)
+            orderedList = if (amountFilter) {
+                originalList.sortedBy {
+                    it.amount.toInt()
+                }
+
+            } else {
+                originalList.sortedByDescending {
+                    it.amount.toInt()
+                }
+
+            }
+            adapter.setAdapter(orderedList)
+
+        }
 
 
     }
@@ -107,68 +108,68 @@ class ExpenseListFragment : Fragment(), ItemClickListener {
         }
     }
 
-//    private fun setAmountDrawable(state: Boolean) {
-//        if (state) {
-//            expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                0,
-//                0,
-//                R.drawable.ic_arrow_up,
-//                0
-//            )
-//
-//        } else {
-//            expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                0,
-//                0,
-//                R.drawable.ic_arrow_down,
-//                0
-//            )
-//        }
-//        date.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-//        expense.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-//
-//    }
+    private fun setAmountDrawable(state: Boolean) {
+        if (state) {
+            expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_up,
+                0
+            )
 
-//    private fun setExpenseDrawable(state: Boolean) {
-//        if (state) {
-//            expense.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                0,
-//                0,
-//                R.drawable.ic_arrow_up,
-//                0
-//            )
-//
-//        } else {
-//            expense.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                0,
-//                0,
-//                R.drawable.ic_arrow_down,
-//                0
-//            )
-//        }
-//        date.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-//        expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-//
-//    }
+        } else {
+            expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_down,
+                0
+            )
+        }
+        date.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        expense.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
 
-//    private fun setDateDrawable(state: Boolean) {
-//        if (state) {
-//            date.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                0,
-//                0,
-//                R.drawable.ic_arrow_up,
-//                0
-//            )
-//
-//        } else {
-//            date.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                0,
-//                0,
-//                R.drawable.ic_arrow_down,
-//                0
-//            )
-//        }
-//        expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-//        expense.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-//    }
+    }
+
+    private fun setExpenseDrawable(state: Boolean) {
+        if (state) {
+            expense.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_up,
+                0
+            )
+
+        } else {
+            expense.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_down,
+                0
+            )
+        }
+        date.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+
+    }
+
+    private fun setDateDrawable(state: Boolean) {
+        if (state) {
+            date.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_up,
+                0
+            )
+
+        } else {
+            date.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_arrow_down,
+                0
+            )
+        }
+        expense_amount.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+        expense.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+    }
 }
