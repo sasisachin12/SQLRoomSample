@@ -14,7 +14,7 @@
         android:id="@+id/expenseListFragment"
         android:name="aaa.app.android.sqlroomsample.fragments.ExpenseListFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_expense_listing" />
 
 
 
