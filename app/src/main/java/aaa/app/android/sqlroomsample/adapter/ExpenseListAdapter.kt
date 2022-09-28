@@ -26,7 +26,7 @@ class ExpenseListAdapter internal constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = inflater.inflate(R.layout.recyclerview_item, parent, false)
+        val itemView = inflater.inflate(R.layout.row_expense_list_item, parent, false)
         return ViewHolder(itemView)
     }
 

@@ -1,6 +1,7 @@
 package aaa.app.android.sqlroomsample.fragments
 
 
+import aaa.app.android.sqlroomsample.HomeActivity
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.adapter.ExpenseListAdapter
 import aaa.app.android.sqlroomsample.adapter.ItemClickListener
@@ -38,8 +39,10 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ItemC
 
 
         expenseViewModel.allExpenses.observe(viewLifecycleOwner) { expenseList ->
-            val totalAmount: Int = expenseList.sumOf { it.amount.toInt() }
-            binding.displayAmount.text = totalAmount.toString()
+            val totalAmount = expenseList.map { it.amount.toFloat() }.sum()
+
+            (activity as HomeActivity).supportActionBar?.title = " Reports     Total : $totalAmount"
+
             expenseList?.let { adapter.setAdapter(it) }
             originalList.clear()
             originalList.addAll(expenseList)
@@ -79,12 +82,12 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ItemC
             setAmountDrawable(amountFilter)
             orderedList = if (amountFilter) {
                 originalList.sortedBy {
-                    it.amount.toInt()
+                    it.amount.toFloat()
                 }
 
             } else {
                 originalList.sortedByDescending {
-                    it.amount.toInt()
+                    it.amount.toFloat()
                 }
 
             }
