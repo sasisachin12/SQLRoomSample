@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import kotlinx.android.synthetic.main.fragment_expense.*
 
 
 class ExpenseFragment : Fragment(R.layout.fragment_expense) {
@@ -49,23 +48,23 @@ class ExpenseFragment : Fragment(R.layout.fragment_expense) {
                 R.string.added_success_msg,
                 Toast.LENGTH_LONG
             ).show()
-            et_expense_for.text?.clear()
-            et_expense_amount.text?.clear()
+            binding.etExpenseFor.text?.clear()
+            binding.etExpenseAmount.text?.clear()
         }
 
 
-        button_save.setOnClickListener {
+        binding.buttonSave.setOnClickListener {
 
-            val date = et_expense_date.text.toString()
-            val expense = et_expense_for.text.toString()
-            val expenseAmount = et_expense_amount.text.toString()
-            if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(expense) && !TextUtils.isEmpty(
+            val dateandTime = binding.etExpenseDate.text.toString() +" "+ binding.etExpenseTime.text.toString()
+            val expense = binding.etExpenseFor.text.toString()
+            val expenseAmount = binding.etExpenseAmount.text.toString()
+            if (!TextUtils.isEmpty(dateandTime) && !TextUtils.isEmpty(expense) && !TextUtils.isEmpty(
                     expenseAmount
                 )
             ) {
                 val word = ExpenseInfo(
                     null,
-                    date = date,
+                    date = dateandTime,
                     expense = expense,
                     amount = expenseAmount
                 )
