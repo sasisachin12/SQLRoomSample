@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_one"
-
+    android:padding="@dimen/dimen_16dp"
     tools:context=".fragments.ExpenseFragment">
 
 
@@ -39,7 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_8dp"
-        app:endIconDrawable="@drawable/ic_calender"
+        app:endIconDrawable="@drawable/ic_calendar"
         app:endIconMode="custom"
         app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_8dp"
-        app:endIconDrawable="@drawable/ic_time"
+        app:endIconDrawable="@drawable/ic_clock"
         app:endIconMode="custom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
