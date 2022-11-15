@@ -12,7 +12,7 @@
         <activity
             android:exported="true"
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home">
+          >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

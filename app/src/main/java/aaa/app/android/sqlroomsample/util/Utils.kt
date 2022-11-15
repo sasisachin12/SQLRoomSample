@@ -88,4 +88,18 @@ object Utils {
             ).show()
         }
     }
+
+    fun stringtoDate(date: String): Date? {
+        val formatter = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
+        return formatter.parse(date)
+    }
+
+    fun get24Hours(time: String):String {
+        val displayFormat = SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.getDefault())
+        val parseFormat = SimpleDateFormat("dd-mm-yyyy hh:mm a",Locale.getDefault())
+        val date=parseFormat.parse(time)
+        return displayFormat.format(date)
+    }
+
+
 }

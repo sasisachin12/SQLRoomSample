@@ -61,7 +61,6 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ItemC
             }
             adapter.setAdapter(orderedList)
         }
-
         binding.expense.setOnClickListener {
             expenseFilter = !expenseFilter
             setExpenseDrawable(expenseFilter)
@@ -76,7 +75,6 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ItemC
             }
             adapter.setAdapter(orderedList)
         }
-
         binding.etExpenseAmount.setOnClickListener {
             amountFilter = !amountFilter
             setAmountDrawable(amountFilter)
