@@ -13,14 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.02" />
+        app:layout_constraintGuide_percent="0.00" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_two"
@@ -35,10 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:src="@drawable/trash"
+        android:src="@drawable/ic_delete"
         android:textColor="@color/text_color"
         android:textSize="14sp"
-        android:visibility="gone"
+      android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="left"
+android:gravity="center_vertical"
+        android:drawableLeft="@drawable/ic_delete"
         android:textColor="@color/text_color"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@id/guideline_one"

@@ -6,15 +6,19 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import java.util.*
 
 
 @Dao
 interface ExpenseDao {
 
 
-    @Query("Select * from expense_table ORDER BY id DESC")
-    fun getAllExpense(): LiveData<List<ExpenseInfo>>
+    @Query("SELECT * FROM expense_table WHERE date BETWEEN :from AND :to")
+    fun getAllExpense(from: Long, to: Long): LiveData<List<ExpenseInfo>>
 
+    /*@Query("Select * from expense_table ORDER BY id DESC")
+    fun getAllExpense(): LiveData<List<ExpenseInfo>>
+*/
 
     @Query("Select * from expense_table ORDER BY id DESC")
     fun getExpense(): List<ExpenseInfo>
