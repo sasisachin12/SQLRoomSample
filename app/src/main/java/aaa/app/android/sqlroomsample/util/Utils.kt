@@ -7,6 +7,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 
 object Utils {
@@ -89,17 +90,48 @@ object Utils {
         }
     }
 
-    fun stringtoDate(date: String): Date? {
-        val formatter = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
-        return formatter.parse(date)
+
+
+
+    fun convertDateToLong(date: String, format: String): Long {
+        val df = SimpleDateFormat(format, Locale.getDefault())
+        return df.parse(date)?.time ?: 0
     }
 
-    fun get24Hours(time: String):String {
-        val displayFormat = SimpleDateFormat("YYYY-MM-DD HH:MM:SS", Locale.getDefault())
-        val parseFormat = SimpleDateFormat("dd-mm-yyyy hh:mm a",Locale.getDefault())
-        val date=parseFormat.parse(time)
-        return displayFormat.format(date)
+
+    fun convertLongToTime (time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("$DATE_FORMAT_ONE $TIME_FORMAT_ONE", Locale.getDefault())
+        return format.format(date)
     }
 
+    fun getCurrentMonthStart(): String {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MONTH, 0)
+        calendar[Calendar.DATE] = calendar.getActualMinimum(Calendar.DAY_OF_MONTH)
+        val monthFirstDay = calendar.time
+        val df = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
+        return df.format(monthFirstDay)
+
+
+    }
+
+    fun getCurrentMonthEnd(): String {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MONTH, 0)
+        calendar[Calendar.DATE] = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        val monthLastDay = calendar.time
+        val df = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
+        return df.format(monthLastDay)
+
+
+    }
+
+    fun getCurrentMonthNAme():String
+    {
+        val calendar = Calendar.getInstance()
+        val monthDate =  SimpleDateFormat("MMMM", Locale.getDefault())
+        return monthDate.format(calendar.time)
+    }
 
 }

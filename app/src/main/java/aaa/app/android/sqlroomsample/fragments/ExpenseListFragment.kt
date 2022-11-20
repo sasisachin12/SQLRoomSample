@@ -4,9 +4,10 @@ package aaa.app.android.sqlroomsample.fragments
 import aaa.app.android.sqlroomsample.HomeActivity
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.adapter.ExpenseListAdapter
-import aaa.app.android.sqlroomsample.adapter.ItemClickListener
+import aaa.app.android.sqlroomsample.adapter.ListItemClickListener
 import aaa.app.android.sqlroomsample.databinding.FragmentExpenseListingBinding
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
+import aaa.app.android.sqlroomsample.util.Utils.getCurrentMonthNAme
 import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
 import android.os.Bundle
 import android.view.View
@@ -16,7 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 
 
-class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ItemClickListener {
+class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ListItemClickListener {
 
     private lateinit var expenseViewModel: ExpenseViewModel
     private var dateFilter = false
@@ -41,7 +42,8 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ItemC
         expenseViewModel.allExpenses.observe(viewLifecycleOwner) { expenseList ->
             val totalAmount = expenseList.map { it.amount.toFloat() }.sum()
 
-            (activity as HomeActivity).supportActionBar?.title = " Reports     Total : $totalAmount"
+            (activity as HomeActivity).supportActionBar?.title =
+                getCurrentMonthNAme() + "   Total : $totalAmount"
 
             expenseList?.let { adapter.setAdapter(it) }
             originalList.clear()
@@ -96,7 +98,7 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ItemC
 
     }
 
-    override fun onClick(item: Any) {
+    override fun onDeleteItemClick(item: Any) {
         if (item is ExpenseInfo) {
             lifecycleScope.launchWhenResumed {
                 item.id?.let { expenseViewModel.deleteByID(it) }

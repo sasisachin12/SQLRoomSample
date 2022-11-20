@@ -2,6 +2,7 @@ package aaa.app.android.sqlroomsample.adapter
 
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
+import aaa.app.android.sqlroomsample.util.Utils.convertLongToTime
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,7 +13,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class ExpenseListAdapter internal constructor(
-    context: Context, val itemClickListener: ItemClickListener
+    context: Context, val listItemClickListener: ListItemClickListener
 ) : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -31,13 +32,12 @@ class ExpenseListAdapter internal constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val current = expenseList[position]
-        holder.vdate.text = current.date
-        holder.expense.text = current.expense
-        holder.expense_amount.text = current.amount
-        holder.delete.setOnClickListener {
-
-            itemClickListener.onClick(current)
+        val item = expenseList[position]
+        holder.vdate.text = convertLongToTime(item.date)
+        holder.expense.text = item.expense
+        holder.expense_amount.text = item.amount
+        holder.vdate.setOnClickListener {
+            listItemClickListener.onDeleteItemClick(item)
 
         }
 

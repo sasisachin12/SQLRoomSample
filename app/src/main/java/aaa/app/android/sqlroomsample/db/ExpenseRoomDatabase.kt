@@ -1,17 +1,20 @@
 package aaa.app.android.sqlroomsample.db
 
+import aaa.app.android.sqlroomsample.dao.DateConverters
 import aaa.app.android.sqlroomsample.dao.ExpenseDao
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
 @Database(entities = arrayOf(ExpenseInfo::class), version = 1, exportSchema = false)
+
 abstract class ExpenseRoomDatabase : RoomDatabase() {
 
 

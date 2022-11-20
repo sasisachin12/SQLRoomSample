@@ -5,6 +5,7 @@ import aaa.app.android.sqlroomsample.databinding.FragmentExpenseBinding
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
+import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentDate
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentTime
 import aaa.app.android.sqlroomsample.util.Utils.transformIntoDatePicker
@@ -64,7 +65,7 @@ class ExpenseFragment : Fragment(R.layout.fragment_expense) {
             ) {
                 val word = ExpenseInfo(
                     null,
-                    date = dateandTime,
+                    date = convertDateToLong(dateandTime,"$DATE_FORMAT_ONE $TIME_FORMAT_ONE"),
                     expense = expense,
                     amount = expenseAmount
                 )
