@@ -34,13 +34,7 @@ android {
     }
 
     signingConfigs {
-        release {
-            storeFile file('/Users/sasikumar/Documents/AAAAndroidProjects/aaa2022/gkey/expensecalculator/Sql_googlekey')
-
-            storePassword 'aaa123'
-            keyPassword 'aaa123'
-            keyAlias 'Key0'
-        }
+      
     }
 
     defaultConfig {
