@@ -16,9 +16,12 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 
 
 class ExpenseFragment : Fragment(R.layout.fragment_expense) {
@@ -56,23 +59,30 @@ class ExpenseFragment : Fragment(R.layout.fragment_expense) {
 
         binding.buttonSave.setOnClickListener {
 
-            val dateandTime = binding.etExpenseDate.text.toString() +" "+ binding.etExpenseTime.text.toString()
+            val dateAndTime =
+                binding.etExpenseDate.text.toString() + " " + binding.etExpenseTime.text.toString()
             val expense = binding.etExpenseFor.text.toString()
             val expenseAmount = binding.etExpenseAmount.text.toString()
-            if (!TextUtils.isEmpty(dateandTime) && !TextUtils.isEmpty(expense) && !TextUtils.isEmpty(
+            if (!TextUtils.isEmpty(dateAndTime) && !TextUtils.isEmpty(expense) && !TextUtils.isEmpty(
                     expenseAmount
                 )
             ) {
                 val word = ExpenseInfo(
                     null,
-                    date = convertDateToLong(dateandTime,"$DATE_FORMAT_ONE $TIME_FORMAT_ONE"),
+                    date = convertDateToLong(dateAndTime, "$DATE_FORMAT_ONE $TIME_FORMAT_ONE"),
                     expense = expense,
                     amount = expenseAmount
                 )
 
-                lifecycleScope.launchWhenResumed {
+                /*lifecycleScope.launchWhenResumed {
 
                     insertResponse.postValue(expenseViewModel.insert(word))
+                }*/
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                        insertResponse.postValue(expenseViewModel.insert(word))
+                    }
                 }
             } else {
                 Toast.makeText(

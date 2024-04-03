@@ -5,9 +5,10 @@ import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.text.TextUtils
+import androidx.core.util.PatternsCompat
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 object Utils {
@@ -61,8 +62,7 @@ object Utils {
 
     fun TextInputEditText.transformIntoTimePicker(
         context: Context,
-        format: String,
-        maxDate: Date? = null
+        format: String
     ) {
         isFocusableInTouchMode = false
         isClickable = true
@@ -91,15 +91,13 @@ object Utils {
     }
 
 
-
-
     fun convertDateToLong(date: String, format: String): Long {
         val df = SimpleDateFormat(format, Locale.getDefault())
         return df.parse(date)?.time ?: 0
     }
 
 
-    fun convertLongToTime (time: Long): String {
+    fun convertLongToTime(time: Long): String {
         val date = Date(time)
         val format = SimpleDateFormat("$DATE_FORMAT_ONE $TIME_FORMAT_ONE", Locale.getDefault())
         return format.format(date)
@@ -113,7 +111,6 @@ object Utils {
         val df = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
         return df.format(monthFirstDay)
 
-
     }
 
     fun getCurrentMonthEnd(): String {
@@ -123,15 +120,17 @@ object Utils {
         val monthLastDay = calendar.time
         val df = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
         return df.format(monthLastDay)
-
-
     }
 
-    fun getCurrentMonthNAme():String
-    {
+    fun getCurrentMonthName(): String {
         val calendar = Calendar.getInstance()
-        val monthDate =  SimpleDateFormat("MMMM", Locale.getDefault())
+        val monthDate = SimpleDateFormat("MMMM", Locale.getDefault())
         return monthDate.format(calendar.time)
+    }
+
+
+    fun validateEmail(email: String?): Boolean {
+        return !TextUtils.isEmpty(email) && email?.let { PatternsCompat.EMAIL_ADDRESS.matcher(it).matches() } == true
     }
 
 }

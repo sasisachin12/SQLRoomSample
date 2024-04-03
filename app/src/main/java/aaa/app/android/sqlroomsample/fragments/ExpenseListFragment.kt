@@ -7,14 +7,17 @@ import aaa.app.android.sqlroomsample.adapter.ExpenseListAdapter
 import aaa.app.android.sqlroomsample.adapter.ListItemClickListener
 import aaa.app.android.sqlroomsample.databinding.FragmentExpenseListingBinding
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
-import aaa.app.android.sqlroomsample.util.Utils.getCurrentMonthNAme
+import aaa.app.android.sqlroomsample.util.Utils.getCurrentMonthName
 import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.launch
 
 
 class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ListItemClickListener {
@@ -26,7 +29,7 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ListI
     private var orderedList = emptyList<ExpenseInfo>()
     private val originalList = mutableListOf<ExpenseInfo>()
 
-    var _binding: FragmentExpenseListingBinding? = null
+    private var _binding: FragmentExpenseListingBinding? = null
     private val binding get() = _binding!!
 
 
@@ -43,7 +46,7 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ListI
             val totalAmount = expenseList.map { it.amount.toFloat() }.sum()
 
             (activity as HomeActivity).supportActionBar?.title =
-                getCurrentMonthNAme() + "   Total : $totalAmount"
+                getCurrentMonthName() + "   Total : $totalAmount"
 
             expenseList?.let { adapter.setAdapter(it) }
             originalList.clear()
@@ -100,8 +103,14 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ListI
 
     override fun onDeleteItemClick(item: Any) {
         if (item is ExpenseInfo) {
-            lifecycleScope.launchWhenResumed {
+           /* lifecycleScope.launchWhenResumed {
                 item.id?.let { expenseViewModel.deleteByID(it) }
+            }*/
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    item.id?.let { expenseViewModel.deleteByID(it) }
+                }
             }
         }
     }

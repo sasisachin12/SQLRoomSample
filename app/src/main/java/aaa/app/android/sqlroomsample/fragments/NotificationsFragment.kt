@@ -14,7 +14,7 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_notifications, container, false)
-        val textView = root.findViewById<TextView>(R.id.text_notifications)
+       // val textView = root.findViewById<TextView>(R.id.text_notifications)
         return root
     }
 }

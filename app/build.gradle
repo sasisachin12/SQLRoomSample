@@ -8,14 +8,14 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-   // id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
+    // id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
 }
 
 
 android {
 
 
-    compileSdk 33
+    compileSdk 34
     packagingOptions {
         resources {
             excludes += ['META-INF/atomicfu.kotlin_module']
@@ -32,10 +32,16 @@ android {
     kotlinOptions {
         jvmTarget = 11
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 
     signingConfigs {
         release {
-           
+            storeFile file("/Users/sasikumar/Documents/AAAAndroidProjects/aaa2022/gkey/expensecalculator/Sql_googlekey")
+            storePassword "aaa123"
+            keyAlias "Key0"
+            keyPassword "aaa123"
         }
     }
 
@@ -43,8 +49,8 @@ android {
         applicationId "aaa.app.android.sqlroomsample"
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 7
-        versionName "1.0.7"
+        versionCode 8
+        versionName "1.0.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -81,52 +87,51 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.2'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.activity:activity-compose:1.8.2'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.6.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 
     // Room components
-    implementation "androidx.room:room-runtime:2.5.2"
-    kapt "androidx.room:room-compiler:2.5.2"
-    androidTestImplementation "androidx.room:room-testing:2.5.2"
+    implementation "androidx.room:room-runtime:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    androidTestImplementation "androidx.room:room-testing:2.6.1"
 
 // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.6.1")
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.7.0")
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
 
 // Kotlin components
-    //  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
 
 // Material design
-    implementation "com.google.android.material:material:1.9.0"
+    implementation "com.google.android.material:material:1.11.0"
+
+   // implementation platform('com.google.firebase:firebase-bom:32.8.0')
+   // implementation 'com.google.firebase:firebase-analytics-ktx'
+  //  implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.android.support:multidex:1.0.3'
+
 
 // Testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
-
-    implementation platform('com.google.firebase:firebase-bom:31.0.2')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-
-    implementation platform('com.google.firebase:firebase-bom:31.0.2')
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.android.support:multidex:1.0.3'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 
 }

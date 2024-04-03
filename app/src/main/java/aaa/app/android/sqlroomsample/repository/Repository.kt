@@ -7,8 +7,6 @@ import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentMonthEnd
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentMonthStart
 import androidx.lifecycle.LiveData
-import java.text.SimpleDateFormat
-import java.util.*
 
 class Repository(private val expenseDao: ExpenseDao) {
 
@@ -16,23 +14,23 @@ class Repository(private val expenseDao: ExpenseDao) {
     // Observed LiveData will notify the observer when the data has changed.
 
 
-    val startDate = convertDateToLong(getCurrentMonthStart(), DATE_FORMAT_ONE)
-    val endDate = convertDateToLong(getCurrentMonthEnd(), DATE_FORMAT_ONE)
+    private val startDate = convertDateToLong(getCurrentMonthStart(), DATE_FORMAT_ONE)
+    private val endDate = convertDateToLong(getCurrentMonthEnd(), DATE_FORMAT_ONE)
 
     val allExpenses: LiveData<List<ExpenseInfo>> =
         expenseDao.getAllExpense(startDate, endDate)
 
-    suspend fun insert(expenseInfo: ExpenseInfo): Long {
+    fun insert(expenseInfo: ExpenseInfo): Long {
         return expenseDao.insert(expenseInfo)
     }
 
 
-    suspend fun getAll(): List<ExpenseInfo> {
+    fun getAll(): List<ExpenseInfo> {
         return expenseDao.getExpense()
     }
 
 
-    suspend fun getDeleteById(id: Int) {
+    fun getDeleteById(id: Int) {
         expenseDao.deleteByID(id)
     }
 }
