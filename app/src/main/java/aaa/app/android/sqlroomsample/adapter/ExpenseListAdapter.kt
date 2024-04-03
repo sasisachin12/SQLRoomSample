@@ -8,22 +8,21 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class ExpenseListAdapter internal constructor(
-    context: Context, val listItemClickListener: ListItemClickListener
+    context: Context, private val listItemClickListener: ListItemClickListener
 ) : RecyclerView.Adapter<ExpenseListAdapter.ViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var expenseList = emptyList<ExpenseInfo>()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val vdate: TextView = itemView.findViewById(R.id.date)
+        val displayDate: TextView = itemView.findViewById(R.id.date)
         val expense: TextView = itemView.findViewById(R.id.expense)
-        val expense_amount: TextView = itemView.findViewById(R.id.et_expense_amount)
-        val delete: ImageView = itemView.findViewById(R.id.delete)
+        val expenseAmount: TextView = itemView.findViewById(R.id.et_expense_amount)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,10 +32,10 @@ class ExpenseListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = expenseList[position]
-        holder.vdate.text = convertLongToTime(item.date)
+        holder.displayDate.text = convertLongToTime(item.date)
         holder.expense.text = item.expense
-        holder.expense_amount.text = item.amount
-        holder.vdate.setOnClickListener {
+        holder.expenseAmount.text = item.amount
+        holder.displayDate.setOnClickListener {
             listItemClickListener.onDeleteItemClick(item)
 
         }
@@ -52,4 +51,9 @@ class ExpenseListAdapter internal constructor(
     override fun getItemCount() = expenseList.size
 
 
+}
+
+interface ListItemClickListener {
+
+    fun onDeleteItemClick(item: Any)
 }

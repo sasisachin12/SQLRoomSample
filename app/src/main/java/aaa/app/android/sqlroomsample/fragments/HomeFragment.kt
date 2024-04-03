@@ -10,14 +10,14 @@ import androidx.fragment.app.Fragment
 
 class HomeFragment : Fragment() {
 
-    var _binding: FragmentHomeFragmentBinding? = null
+    private var _binding: FragmentHomeFragmentBinding? = null
     private val binding get() = _binding!!
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentHomeFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
