@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SQLRoomSample.iml" filepath="$PROJECT_DIR$/SQLRoomSample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SQLRoomSample.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SQLRoomSample.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SQLRoomSample.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SQLRoomSample.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SQLRoomSample.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SQLRoomSample.app.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SQLRoomSample.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SQLRoomSample.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SQLRoom.iml" filepath="$PROJECT_DIR$/.idea/modules/SQLRoom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SQLRoom.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SQLRoom.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SQLRoom.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SQLRoom.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SQLRoom.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SQLRoom.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/SQLRoom.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/SQLRoom.app.unitTest.iml" />
     </modules>
   </component>
 </project>

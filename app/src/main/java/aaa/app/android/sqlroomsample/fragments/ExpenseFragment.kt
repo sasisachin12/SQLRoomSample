@@ -71,7 +71,7 @@ class ExpenseFragment : Fragment(R.layout.fragment_expense) {
                     null,
                     date = convertDateToLong(dateAndTime, "$DATE_FORMAT_ONE $TIME_FORMAT_ONE"),
                     expense = expense,
-                    amount = expenseAmount
+                    amount = expenseAmount, isCompleted = false
                 )
 
                 /*lifecycleScope.launchWhenResumed {
