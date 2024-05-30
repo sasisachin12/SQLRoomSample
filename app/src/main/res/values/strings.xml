@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"> Expense Calculator</string>
+    <string name="app_name">Daily Expense</string>
     <string name="add_word">Add Expense</string>
     <string name="expense_type"> Expense Type</string>
     <string name="expense_Amount">Amount </string>
