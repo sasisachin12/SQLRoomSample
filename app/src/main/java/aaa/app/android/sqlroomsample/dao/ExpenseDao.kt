@@ -15,9 +15,7 @@ interface ExpenseDao {
     @Query("SELECT * FROM expense_table WHERE date BETWEEN :from AND :to")
     fun getAllExpense(from: Long, to: Long): LiveData<List<ExpenseInfo>>
 
-    /*@Query("Select * from expense_table ORDER BY id DESC")
-    fun getAllExpense(): LiveData<List<ExpenseInfo>>
-*/
+
 
     @Query("Select * from expense_table ORDER BY id DESC")
     fun getExpense(): List<ExpenseInfo>
