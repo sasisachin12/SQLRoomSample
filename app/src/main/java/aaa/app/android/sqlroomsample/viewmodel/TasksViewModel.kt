@@ -28,22 +28,7 @@ class TasksViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
 
 
-    fun snackbarMessageShown() {
-        _userMessage.value = null
-    }
-
-    private fun showSnackbarMessage(message: Int) {
-        _userMessage.value = message
-    }
-
-    fun refresh() {
-        _isLoading.value = true
-        viewModelScope.launch {
-            taskRepository.refresh()
-            _isLoading.value = false
-        }
-    }
-
+ 
 
 }
 
