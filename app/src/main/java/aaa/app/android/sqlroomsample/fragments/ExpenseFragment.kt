@@ -16,9 +16,9 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
@@ -29,15 +29,13 @@ class ExpenseFragment : Fragment(R.layout.fragment_expense) {
     private var _binding: FragmentExpenseBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var expenseViewModel: ExpenseViewModel
-
+    private val expenseViewModel: ExpenseViewModel by viewModels()
     private val insertResponse: MutableLiveData<Long> = MutableLiveData()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentExpenseBinding.bind(view)
-        expenseViewModel = ViewModelProvider(requireActivity())[ExpenseViewModel::class.java]
         binding.etExpenseDate.transformIntoDatePicker(requireContext(), DATE_FORMAT_ONE)
         binding.etExpenseTime.transformIntoTimePicker(requireContext(), TIME_FORMAT_ONE)
         binding.etExpenseDate.setText(getCurrentDate())

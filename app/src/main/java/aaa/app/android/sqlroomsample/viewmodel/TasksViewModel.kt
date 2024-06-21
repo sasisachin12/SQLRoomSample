@@ -4,17 +4,10 @@ import aaa.app.android.sqlroomsample.data.TaskRepository
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @HiltViewModel
@@ -28,7 +21,13 @@ class TasksViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
 
 
- 
+    fun clearCompletedTasks() {
+        viewModelScope.launch {
+            taskRepository.clearCompletedTasks()
+
+        }
+    }
+
 
 }
 

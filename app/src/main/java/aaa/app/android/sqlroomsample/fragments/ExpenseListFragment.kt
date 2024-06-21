@@ -17,8 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.internal.Contexts.getApplication
 import kotlinx.coroutines.launch
-
 
 class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ListItemClickListener {
 
@@ -36,7 +36,11 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ListI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentExpenseListingBinding.bind(view)
-        expenseViewModel = ViewModelProvider(requireActivity())[ExpenseViewModel::class.java]
+        expenseViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(getApplication(requireActivity().applicationContext))
+        )[ExpenseViewModel::class.java]
+
         val adapter = ExpenseListAdapter(requireActivity(), this)
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireActivity())
@@ -103,9 +107,9 @@ class ExpenseListFragment : Fragment((R.layout.fragment_expense_listing)), ListI
 
     override fun onDeleteItemClick(item: Any) {
         if (item is ExpenseInfo) {
-           /* lifecycleScope.launchWhenResumed {
-                item.id?.let { expenseViewModel.deleteByID(it) }
-            }*/
+            /* lifecycleScope.launchWhenResumed {
+                 item.id?.let { expenseViewModel.deleteByID(it) }
+             }*/
 
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
