@@ -8,7 +8,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
@@ -18,7 +17,6 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.example.owl.ui.courses.MyCourses
 import com.example.owl.ui.courses.SearchCourses
 
 fun NavGraphBuilder.courses(
@@ -49,7 +47,7 @@ fun NavGraphBuilder.courses(
         )
     }
     composable(CourseTabs.ADD_EXPENSE.route) { from ->
-        MyCourses(
+        AddMyExpense(
             courses = courses,
             { id -> onCourseSelected(id, from) },
             modifier
@@ -60,7 +58,7 @@ fun NavGraphBuilder.courses(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Preview
 @Composable
 fun CoursesAppBar() {
@@ -69,15 +67,7 @@ fun CoursesAppBar() {
         modifier = Modifier.height(40.dp)
     ) {
         Text("Expense List")
-        /*IconButton(
-            modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { *//* todo *//* }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.AccountCircle,
-                contentDescription = stringResource(R.string.label_profile)
-            )
-        }*/
+
     }
 }
 
@@ -91,9 +81,7 @@ enum class CourseTabs(
     SETTINGS(R.string.settings, R.drawable.ic_search, CoursesDestinations.SETTINGS)
 }
 
-/**
- * Destinations used in the ([OwlApp]).
- */
+
 private object CoursesDestinations {
     const val ADD_EXPENSE = "courses/featured"
     const val EXPENSE_LIST = "courses/my"

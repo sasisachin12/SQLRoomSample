@@ -29,9 +29,9 @@ import androidx.navigation.compose.rememberNavController
 import java.util.Locale
 
 @Composable
-fun OwlApp(finishActivity: () -> Unit) {
+fun ExpenseApp(finishActivity: () -> Unit) {
     BlueTheme {
-        val tabs = remember { CourseTabs.values() }
+        val tabs = remember { CourseTabs.entries.toTypedArray() }
         val navController = rememberNavController()
         Scaffold(
             backgroundColor = MaterialTheme.colors.primarySurface,
@@ -51,9 +51,9 @@ fun MyBottomBar(navController: NavController, tabs: Array<CourseTabs>) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-        ?: CourseTabs.EXPENSE_LIST.route
+        ?: CourseTabs.ADD_EXPENSE.route
 
-    val routes = remember { CourseTabs.values().map { it.route } }
+    val routes = remember { CourseTabs.entries.map { it.route } }
     if (currentRoute in routes) {
         BottomNavigation(
             Modifier.windowInsetsBottomHeight(

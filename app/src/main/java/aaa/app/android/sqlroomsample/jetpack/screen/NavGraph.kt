@@ -22,7 +22,7 @@ import com.example.owl.ui.course.CourseDetails
 
 
 /**
- * Destinations used in the ([OwlApp]).
+ * Destinations used in the ([ExpenseApp]).
  */
 object MainDestinations {
     const val ONBOARDING_ROUTE = "onboarding"
