@@ -17,7 +17,6 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.example.owl.ui.courses.SearchCourses
 
 fun NavGraphBuilder.courses(
     onCourseSelected: (Long, NavBackStackEntry) -> Unit,
@@ -40,7 +39,7 @@ fun NavGraphBuilder.courses(
                )
            }*/
 
-        FeaturedCourses(
+        ExpenseList(
             courses = courses,
             selectCourse = { id -> onCourseSelected(id, from) },
             modifier = modifier
@@ -54,7 +53,7 @@ fun NavGraphBuilder.courses(
         )
     }
     composable(CourseTabs.SETTINGS.route) {
-        SearchCourses(topics, modifier)
+        Settings(topics, modifier)
     }
 }
 
