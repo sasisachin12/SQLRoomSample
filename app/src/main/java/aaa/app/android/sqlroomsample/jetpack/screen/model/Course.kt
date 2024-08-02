@@ -15,13 +15,6 @@ data class Course(
     val instructor: String = "https://i.pravatar.cc/112?$id"
 )
 
-/**
- * A fake repo
- */
-object CourseRepo {
-    fun getCourse(courseId: Long): Course = courses.find { it.id == courseId }!!
-    fun getRelated(@Suppress("UNUSED_PARAMETER") courseId: Long): List<Course> = courses
-}
 
 val courses = listOf(
     Course(

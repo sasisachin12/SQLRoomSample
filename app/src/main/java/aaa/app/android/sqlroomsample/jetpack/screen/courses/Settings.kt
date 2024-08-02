@@ -1,7 +1,6 @@
 package aaa.app.android.sqlroomsample.jetpack.screen.courses
 
 import aaa.app.android.sqlroomsample.R
-import aaa.app.android.sqlroomsample.jetpack.screen.model.Topic
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -28,7 +27,6 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Settings(
-    topics: List<Topic>,
     modifier: Modifier = Modifier
 ) {
     val (searchTerm, updateSearchTerm) = remember { mutableStateOf(TextFieldValue("")) }

@@ -2,7 +2,6 @@ package aaa.app.android.sqlroomsample.jetpack.screen.courses
 
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.jetpack.screen.model.courses
-import aaa.app.android.sqlroomsample.jetpack.screen.model.topics
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.height
@@ -53,7 +52,7 @@ fun NavGraphBuilder.courses(
         )
     }
     composable(CourseTabs.SETTINGS.route) {
-        Settings(topics, modifier)
+        Settings(modifier)
     }
 }
 

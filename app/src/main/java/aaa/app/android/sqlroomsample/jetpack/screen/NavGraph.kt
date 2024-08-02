@@ -1,9 +1,7 @@
 package aaa.app.android.sqlroomsample.jetpack.screen
 
-import aaa.app.android.sqlroomsample.jetpack.screen.MainDestinations.COURSE_DETAIL_ID_KEY
 import aaa.app.android.sqlroomsample.jetpack.screen.courses.CourseTabs
 import aaa.app.android.sqlroomsample.jetpack.screen.courses.courses
-import aaa.app.android.sqlroomsample.jetpack.screen.onboarding.Onboarding
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -12,13 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.example.owl.ui.course.CourseDetails
 
 
 /**
@@ -56,13 +51,13 @@ fun NavGraph(
                 finishActivity()
             }
 
-            Onboarding(
+            /*Onboarding(
                 onboardingComplete = {
                     // Set the flag so that onboarding is not shown next time.
                     onboardingComplete.value = true
                     actions.onboardingComplete()
                 }
-            )
+            )*/
         }
         navigation(
             route = MainDestinations.COURSES_ROUTE,
@@ -75,22 +70,7 @@ fun NavGraph(
                 modifier = modifier
             )
         }
-        composable(
-            "${MainDestinations.COURSE_DETAIL_ROUTE}/{$COURSE_DETAIL_ID_KEY}",
-            arguments = listOf(
-                navArgument(COURSE_DETAIL_ID_KEY) { type = NavType.LongType }
-            )
-        ) { backStackEntry: NavBackStackEntry ->
-            val arguments = requireNotNull(backStackEntry.arguments)
-            val currentCourseId = arguments.getLong(COURSE_DETAIL_ID_KEY)
-            CourseDetails(
-                courseId = currentCourseId,
-                selectCourse = { newCourseId ->
-                    actions.relatedCourse(newCourseId, backStackEntry)
-                },
-                upPress = { actions.upPress(backStackEntry) }
-            )
-        }
+
     }
 }
 
