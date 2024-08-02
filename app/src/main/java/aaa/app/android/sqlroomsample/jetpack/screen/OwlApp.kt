@@ -35,7 +35,7 @@ fun OwlApp(finishActivity: () -> Unit) {
         val navController = rememberNavController()
         Scaffold(
             backgroundColor = MaterialTheme.colors.primarySurface,
-            bottomBar = { OwlBottomBar(navController = navController, tabs) }
+            bottomBar = { MyBottomBar(navController = navController, tabs) }
         ) { innerPaddingModifier ->
             NavGraph(
                 finishActivity = finishActivity,
@@ -47,11 +47,11 @@ fun OwlApp(finishActivity: () -> Unit) {
 }
 
 @Composable
-fun OwlBottomBar(navController: NavController, tabs: Array<CourseTabs>) {
+fun MyBottomBar(navController: NavController, tabs: Array<CourseTabs>) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-        ?: CourseTabs.FEATURED.route
+        ?: CourseTabs.EXPENSE_LIST.route
 
     val routes = remember { CourseTabs.values().map { it.route } }
     if (currentRoute in routes) {

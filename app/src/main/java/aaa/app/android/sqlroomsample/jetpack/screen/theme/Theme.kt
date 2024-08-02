@@ -103,7 +103,7 @@ private val DarkElevation = Elevations(card = 1.dp)
 
 private val LightImages = Images(lockupLogo = R.drawable.ic_lockup_blue)
 
-private val DarkImages = Images(lockupLogo = R.drawable.ic_lockup_white)
+private val DarkImages = Images(lockupLogo = R.drawable.ic_lockup_blue)
 
 @Composable
 private fun OwlTheme(

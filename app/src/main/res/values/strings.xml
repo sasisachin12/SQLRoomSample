@@ -43,4 +43,8 @@
     <string name="step_1">Frame the subject of your landscape by making use of the lines and angles present in your scene. Look out for curves, textures, triangles, thirds, and other shapes that improve your composition.</string>
     <string name="step_2">Find the time of the day with the best light conditions for your scene. Balance the light sources in your composition so that both light and shadows are present, adding depth, texture, and scale to your landscape.</string>
 
+
+    <string name="expense">Expense</string>
+    <string name="expense_list">list</string>
+    <string name="settings">settings</string>
 </resources>
