@@ -11,7 +11,7 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id("com.google.devtools.ksp")
     id 'org.jetbrains.kotlin.plugin.compose'
-
+    id("androidx.room")
     // id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
 }
 
@@ -94,7 +94,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 
     namespace 'aaa.app.android.sqlroomsample'
 
@@ -103,76 +105,86 @@ android {
 dependencies {
 
     implementation libs.androidx.material3.android
-    def composeBom = platform('androidx.compose:compose-bom:2024.06.00')
+    def composeBom = libs.androidx.compose.bom
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
-    implementation "androidx.compose.runtime:runtime"
-    implementation "androidx.compose.ui:ui"
-    implementation "androidx.compose.foundation:foundation"
-    implementation "androidx.compose.foundation:foundation-layout"
-    implementation "androidx.compose.material:material"
-    implementation "androidx.compose.runtime:runtime-livedata"
-    implementation "androidx.compose.ui:ui-tooling"
+    implementation libs.androidx.runtime
+    implementation libs.androidx.ui
+    implementation libs.androidx.foundation
+    implementation libs.androidx.foundation.layout
+    implementation libs.androidx.material
+    implementation libs.androidx.runtime.livedata
+    implementation libs.androidx.ui.tooling
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.9.20')
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.3'
-    implementation 'androidx.activity:activity-compose:1.9.0'
-    implementation 'androidx.fragment:fragment-ktx:1.8.1'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.test.ext:junit-ktx:1.2.1'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    implementation libs.androidx.core.ktx
+    implementation platform(libs.kotlin.bom)
+    implementation libs.androidx.lifecycle.runtime.ktx.v283
+    implementation libs.androidx.activity.compose.v191
+    implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.constraintlayout
+    implementation libs.material.v1120
+    implementation libs.androidx.vectordrawable
+    implementation libs.androidx.navigation.fragment
+    implementation libs.androidx.navigation.ui.ktx
+    implementation libs.androidx.lifecycle.extensions
+    implementation libs.androidx.junit.ktx
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.junit.v121
+    androidTestImplementation libs.androidx.espresso.core.v361
 
 
     // Room components
-    implementation "androidx.room:room-runtime:2.6.1"
-    ksp("androidx.room:room-compiler:2.6.1")
-    implementation "androidx.room:room-ktx:2.6.1"
-    androidTestImplementation "androidx.room:room-testing:2.6.1"
+    def room_version = "2.6.1"
+
+    implementation(libs.androidx.room.runtime.v261)
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+
+    // To use Kotlin Symbol Processing (KSP)
+    ksp("androidx.room:room-compiler:$room_version")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx.v261)
+
 
 // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.3"
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.8.3")
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3"
+    implementation libs.androidx.lifecycle.runtime.ktx.v284
+    implementation libs.androidx.lifecycle.extensions
+    implementation(libs.androidx.lifecycle.common.java8)
+    implementation libs.androidx.lifecycle.viewmodel.ktx.v283
 
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.3")
-    implementation("androidx.compose.runtime:runtime-livedata:1.6.8")
+    implementation(libs.androidx.lifecycle.runtime.compose.v283)
+    implementation(libs.runtime.livedata)
     // hilt
 
-    implementation "com.google.dagger:hilt-android:2.51.1"
-    kapt "com.google.dagger:hilt-compiler:2.51.1"
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+
 
 // Kotlin components
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
+    api libs.kotlinx.coroutines.core
+    api libs.kotlinx.coroutines.android
 
 // Material design
-    implementation "com.google.android.material:material:1.12.0"
+    implementation libs.material.v1120
 
     // implementation platform('com.google.firebase:firebase-bom:32.8.0')
     // implementation 'com.google.firebase:firebase-analytics-ktx'
     //  implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation libs.support.multidex
 
 
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.navigation.compose)
 // Testing
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.core.testing
+    androidTestImplementation libs.androidx.junit.v121
 
 
     implementation(libs.kotlin.stdlib)

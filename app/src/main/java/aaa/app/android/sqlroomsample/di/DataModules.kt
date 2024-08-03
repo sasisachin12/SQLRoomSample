@@ -3,7 +3,7 @@ package aaa.app.android.sqlroomsample.di
 import aaa.app.android.sqlroomsample.dao.ExpenseDao
 import aaa.app.android.sqlroomsample.data.DefaultTaskRepository
 import aaa.app.android.sqlroomsample.data.TaskRepository
-import aaa.app.android.sqlroomsample.data.ToDoDatabase
+import aaa.app.android.sqlroomsample.db.ToDoDatabase
 import android.content.Context
 import androidx.room.Room
 import dagger.Binds

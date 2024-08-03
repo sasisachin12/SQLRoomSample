@@ -4,26 +4,16 @@ import aaa.app.android.sqlroomsample.dao.ExpenseDao
 import aaa.app.android.sqlroomsample.di.ApplicationScope
 import aaa.app.android.sqlroomsample.di.DefaultDispatcher
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
-import java.util.UUID
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.UUID
+import javax.inject.Inject
+import javax.inject.Singleton
 
-/**
- * Default implementation of [TaskRepository]. Single entry point for managing tasks' data.
- *
- * @param networkDataSource - The network data source
- * @param localDataSource - The local data source
- * @param dispatcher - The dispatcher to be used for long running or complex operations, such as ID
- * generation or mapping many models.
- * @param scope - The coroutine scope used for deferred jobs where the result isn't important, such
- * as sending data to the network.
- */
 @Singleton
 class DefaultTaskRepository @Inject constructor(
 
@@ -32,20 +22,27 @@ class DefaultTaskRepository @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
 ) : TaskRepository {
 
-    override suspend fun createTask(title: String, description: String): String {
-        // ID creation might be a complex operation so it's executed using the supplied
-        // coroutine dispatcher
+    override suspend fun createTask(
+        date: Long,
+        expense: String,
+        amount: String,
+        isCompleted: Boolean
+    ): String {
+
         val taskId = withContext(dispatcher) {
             UUID.randomUUID().toString()
         }
-        /*val task = ExpenseDao(
-            title = title,
-            description = description,
-            id = taskId,
-        )
-        localDataSource.upsert(task.toLocal())*/
-        saveTasksToNetwork()
-        return taskId
+        val expenseInfo =
+            ExpenseInfo(
+                id = null,
+                date = date,
+                expense = expense,
+                amount = amount,
+                isCompleted = isCompleted
+            )
+        //localDataSource.insert(expenseInfo)
+        //saveTasksToNetwork()
+        return localDataSource.insert(expenseInfo).toString()
     }
 
     override suspend fun updateTask(taskId: String, title: String, description: String) {
@@ -100,7 +97,6 @@ class DefaultTaskRepository @Inject constructor(
         localDataSource.updateCompleted(taskId = taskId, completed = true)
         saveTasksToNetwork()
     }
-
 
 
     override suspend fun activateTask(taskId: String) {

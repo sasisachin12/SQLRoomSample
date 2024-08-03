@@ -17,7 +17,12 @@ interface TaskRepository {
 
     suspend fun refreshTask(taskId: String)
 
-    suspend fun createTask(title: String, description: String): String
+    suspend fun createTask(
+        date: Long,
+        expense: String,
+        amount: String,
+        isCompleted: Boolean
+    ): String
 
     suspend fun updateTask(taskId: String, title: String, description: String)
 

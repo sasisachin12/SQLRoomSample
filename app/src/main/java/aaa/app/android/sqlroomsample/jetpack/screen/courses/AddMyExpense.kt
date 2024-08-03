@@ -3,6 +3,7 @@ package aaa.app.android.sqlroomsample.jetpack.screen.courses
 import aaa.app.android.sqlroomsample.jetpack.screen.model.Course
 import aaa.app.android.sqlroomsample.jetpack.screen.model.courses
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.BlueTheme
+import aaa.app.android.sqlroomsample.viewmodel.TasksViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -27,12 +28,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+
 
 @Composable
 fun AddMyExpense(
     courses: List<Course>,
     selectCourse: (Long) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: TasksViewModel = hiltViewModel()
 ) {
     LazyColumn(
 
@@ -48,7 +52,7 @@ fun AddMyExpense(
             CoursesAppBar()
             ExpenseFiled()
             ExpenseAmountFiled()
-            SaveExpenseButton { }
+            SaveExpenseButton(onClick = viewModel::createNewTask)
         }
 
     }
@@ -86,7 +90,7 @@ fun ExpenseAmountFiled() {
 @Composable
 fun SaveExpenseButton(onClick: () -> Unit) {
     Button(
-        onClick = { onClick() },
+        onClick = onClick,
         modifier = Modifier
             .padding(12.dp)
     ) {

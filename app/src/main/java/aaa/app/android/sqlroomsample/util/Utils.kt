@@ -9,7 +9,9 @@ import android.text.TextUtils
 import androidx.core.util.PatternsCompat
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 object Utils {
 
@@ -91,7 +93,10 @@ object Utils {
     }
 
 
-    fun convertDateToLong(date: String, format: String): Long {
+    fun convertDateToLong(
+        date: String = getCurrentDate(),
+        format: String = getCurrentTime()
+    ): Long {
         val df = SimpleDateFormat(format, Locale.getDefault())
         return df.parse(date)?.time ?: 0
     }
