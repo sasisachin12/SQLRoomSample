@@ -7,12 +7,13 @@ apply plugin: 'com.google.firebase.crashlytics'*/
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+
     id 'com.google.dagger.hilt.android'
     id("com.google.devtools.ksp")
     id 'org.jetbrains.kotlin.plugin.compose'
     id("androidx.room")
     // id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
+
 }
 
 
@@ -142,14 +143,12 @@ dependencies {
     def room_version = "2.6.1"
 
     implementation(libs.androidx.room.runtime.v261)
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation(libs.androidx.room.ktx.v261)
+    ksp(libs.androidx.room.compiler.v250)
+    //annotationProcessor("androidx.room:room-compiler:$room_version")
 
-
-    // To use Kotlin Symbol Processing (KSP)
-    ksp("androidx.room:room-compiler:$room_version")
 
     // optional - Kotlin Extensions and Coroutines support for Room
-    implementation(libs.androidx.room.ktx.v261)
 
 
 // Lifecycle components
@@ -163,7 +162,7 @@ dependencies {
     // hilt
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
 
@@ -216,6 +215,4 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
-kapt {
-    correctErrorTypes true
-}
+

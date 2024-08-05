@@ -42,7 +42,8 @@ class DefaultTaskRepository @Inject constructor(
             )
         //localDataSource.insert(expenseInfo)
         //saveTasksToNetwork()
-        return localDataSource.insert(expenseInfo).toString()
+        localDataSource.upsert(expenseInfo)
+        return taskId
     }
 
     override suspend fun updateTask(taskId: String, title: String, description: String) {

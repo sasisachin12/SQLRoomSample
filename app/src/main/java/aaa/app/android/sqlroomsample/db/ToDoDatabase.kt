@@ -5,7 +5,7 @@ import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [ExpenseInfo::class], version = 2, exportSchema = false)
+@Database(entities = [ExpenseInfo::class], version = 1, exportSchema = false)
 abstract class ToDoDatabase : RoomDatabase() {
 
     abstract fun taskDao(): ExpenseDao
