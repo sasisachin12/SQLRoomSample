@@ -1,13 +1,11 @@
 package aaa.app.android.sqlroomsample.data
 
-import aaa.app.android.sqlroomsample.dao.ExpenseDao
+import aaa.app.android.sqlroomsample.dao.TaskDao
 import aaa.app.android.sqlroomsample.di.ApplicationScope
 import aaa.app.android.sqlroomsample.di.DefaultDispatcher
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
@@ -17,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class DefaultTaskRepository @Inject constructor(
 
-    private val localDataSource: ExpenseDao,
+    private val localDataSource: TaskDao,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
     @ApplicationScope private val scope: CoroutineScope,
 ) : TaskRepository {
@@ -65,21 +63,21 @@ class DefaultTaskRepository @Inject constructor(
         }
     }
 
-    override fun getTasksStream(): Flow<List<ExpenseInfo>> {
+    /*override fun getTasksStream(): Flow<List<ExpenseInfo>> {
         return localDataSource.observeAll().map { tasks ->
             withContext(dispatcher) {
                 tasks
             }
         }
     }
-
+*/
     override suspend fun refreshTask(taskId: String) {
         refresh()
     }
 
-    override fun getTaskStream(taskId: String): Flow<ExpenseInfo?> {
+    /*override fun getTaskStream(taskId: String): Flow<ExpenseInfo?> {
         return localDataSource.observeById(taskId).map { it }
-    }
+    }*/
 
     /**
      * Get a Task with the given ID. Will return null if the task cannot be found.
@@ -111,7 +109,7 @@ class DefaultTaskRepository @Inject constructor(
     }
 
     override suspend fun deleteAllTasks() {
-        localDataSource.deleteAll()
+        //localDataSource.deleteAll()
         saveTasksToNetwork()
     }
 
@@ -140,7 +138,7 @@ class DefaultTaskRepository @Inject constructor(
     override suspend fun refresh() {
         withContext(dispatcher) {
             // val remoteTasks = networkDataSource.loadTasks()
-            localDataSource.deleteAll()
+            //localDataSource.deleteAll()
             // localDataSource.upsertAll(remoteTasks.toLocal())
         }
     }

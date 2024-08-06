@@ -1,17 +1,16 @@
 package aaa.app.android.sqlroomsample.data
 
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
-import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
 
-    fun getTasksStream(): Flow<List<ExpenseInfo>>
+    // fun getTasksStream(): Flow<List<ExpenseInfo>>
 
     suspend fun getTasks(forceUpdate: Boolean = false): List<ExpenseInfo>
 
     suspend fun refresh()
 
-    fun getTaskStream(taskId: String): Flow<ExpenseInfo?>
+    //fun getTaskStream(taskId: String): Flow<ExpenseInfo?>
 
     suspend fun getTask(taskId: String, forceUpdate: Boolean = false): ExpenseInfo?
 
