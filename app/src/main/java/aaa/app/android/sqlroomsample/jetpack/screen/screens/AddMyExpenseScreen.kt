@@ -1,7 +1,5 @@
-package aaa.app.android.sqlroomsample.jetpack.screen.courses
+package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
-import aaa.app.android.sqlroomsample.jetpack.screen.model.Course
-import aaa.app.android.sqlroomsample.jetpack.screen.model.courses
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.BlueTheme
 import aaa.app.android.sqlroomsample.viewmodel.TasksViewModel
 import androidx.compose.foundation.background
@@ -32,9 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 
 @Composable
-fun AddMyExpense(
-    courses: List<Course>,
-    selectCourse: (Long) -> Unit,
+fun AddMyExpenseScreen(
     modifier: Modifier = Modifier,
     viewModel: TasksViewModel = hiltViewModel()
 ) {
@@ -103,9 +99,6 @@ fun SaveExpenseButton(onClick: () -> Unit) {
 @Composable
 private fun MyCoursesPreview() {
     BlueTheme {
-        AddMyExpense(
-            courses = courses,
-            selectCourse = { }
-        )
+        AddMyExpenseScreen()
     }
 }

@@ -1,4 +1,4 @@
-package aaa.app.android.sqlroomsample.jetpack.screen.courses
+package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.jetpack.screen.model.courses
@@ -45,11 +45,7 @@ fun NavGraphBuilder.courses(
         )
     }
     composable(CourseTabs.ADD_EXPENSE.route) { from ->
-        AddMyExpense(
-            courses = courses,
-            { id -> onCourseSelected(id, from) },
-            modifier
-        )
+        AddMyExpenseScreen()
     }
     composable(CourseTabs.SETTINGS.route) {
         Settings(modifier)

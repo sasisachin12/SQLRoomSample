@@ -1,6 +1,6 @@
 package aaa.app.android.sqlroomsample.jetpack.screen
 
-import aaa.app.android.sqlroomsample.jetpack.screen.courses.CourseTabs
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.CourseTabs
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.BlueTheme
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add

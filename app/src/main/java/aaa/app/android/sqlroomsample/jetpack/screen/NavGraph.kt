@@ -1,7 +1,7 @@
 package aaa.app.android.sqlroomsample.jetpack.screen
 
-import aaa.app.android.sqlroomsample.jetpack.screen.courses.CourseTabs
-import aaa.app.android.sqlroomsample.jetpack.screen.courses.courses
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.CourseTabs
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.courses
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf

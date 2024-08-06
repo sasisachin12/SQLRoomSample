@@ -1,4 +1,4 @@
-package aaa.app.android.sqlroomsample.jetpack.screen.courses
+package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
 import aaa.app.android.sqlroomsample.R
 import androidx.compose.foundation.Image
