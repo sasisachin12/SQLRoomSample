@@ -74,4 +74,9 @@ object Utils {
         return !TextUtils.isEmpty(email) && email?.let { PatternsCompat.EMAIL_ADDRESS.matcher(it).matches() } == true
     }
 
+    fun convertMillisToDate(millis: Long): String {
+        val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        return formatter.format(Date(millis))
+    }
+
 }

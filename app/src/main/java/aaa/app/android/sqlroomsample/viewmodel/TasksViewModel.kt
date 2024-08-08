@@ -22,7 +22,7 @@ data class AddExpenseUiState(
         getCurrentDate() + " " + getCurrentTime(),
         "$DATE_FORMAT_ONE $TIME_FORMAT_ONE"
     ),
-    val expense: String = "",
+    val expense: String = "food",
     val amount: String = "0",
     var isCompleted: Boolean = false
 )
