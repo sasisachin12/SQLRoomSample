@@ -4,6 +4,8 @@ import aaa.app.android.sqlroomsample.jetpack.screen.theme.BlueTheme
 import aaa.app.android.sqlroomsample.util.Utils.convertMillisToDate
 import aaa.app.android.sqlroomsample.viewmodel.TasksViewModel
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,6 +33,7 @@ import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,9 +65,11 @@ fun AddMyExpenseScreen(
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         }
         item {
+            // PasswordValidationSample()
             CoursesAppBar()
             ExpenseFiled()
             ExpenseAmountFiled()
+            //TestDerivedState()
             // DatePickerDocked()
             DatePickerModal { System.currentTimeMillis() }
             val currentTime = Calendar.getInstance()
@@ -250,6 +256,76 @@ fun TimePickerDialog(
         },
         text = { content() }
     )
+}
+
+@Composable
+fun DerivedCompose(modifier: Modifier, email: String, onClick: () -> Unit) {
+
+
+}
+
+@Composable
+fun TestDerivedState() {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(12.dp)
+    ) {
+        var email by remember { mutableStateOf("") }
+        val bgColor by remember {
+            derivedStateOf {
+                if (email.isBlank()) Color.Red else Color.Green
+            }
+        }
+        OutlinedTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text(text = "Email") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        )
+        Button(
+            onClick = {
+                //onClick(UUID.randomUUID().toString())
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = bgColor
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
+        ) {
+            Text(text = "test derived state, $email")
+        }
+    }
+}
+
+
+@Composable
+fun PasswordValidationSample() {
+    var password by remember {
+        mutableStateOf("")
+    }
+    var confirmPassword by remember {
+        mutableStateOf("")
+    }
+    val isNotMatching = remember {
+        derivedStateOf {
+            password.isBlank()
+        }
+    }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
+    ) {
+        OutlinedTextField(value = password, onValueChange = { password = it })
+        OutlinedTextField(value = confirmPassword, onValueChange = { confirmPassword = it })
+        if (isNotMatching.value) {
+            Text(text = "Passwords blank")
+        }
+    }
 }
 
 
