@@ -4,8 +4,9 @@ import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import android.text.TextUtils
 import androidx.core.util.PatternsCompat
-
 import java.text.SimpleDateFormat
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -24,9 +25,6 @@ object Utils {
         val sdf = SimpleDateFormat(TIME_FORMAT_ONE, Locale.getDefault())
         return sdf.format(calender.time)
     }
-
-
-
 
 
     fun convertDateToLong(
@@ -71,12 +69,21 @@ object Utils {
 
 
     fun validateEmail(email: String?): Boolean {
-        return !TextUtils.isEmpty(email) && email?.let { PatternsCompat.EMAIL_ADDRESS.matcher(it).matches() } == true
+        return !TextUtils.isEmpty(email) && email?.let {
+            PatternsCompat.EMAIL_ADDRESS.matcher(it).matches()
+        } == true
     }
 
     fun convertMillisToDate(millis: Long): String {
-        val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        val formatter = SimpleDateFormat(DATE_FORMAT_ONE, Locale.getDefault())
         return formatter.format(Date(millis))
+
+    }
+
+    fun formattedTime(hour: Int, minute: Int): String {
+        val formatter = DateTimeFormatter.ofPattern(TIME_FORMAT_ONE)
+        val time = LocalTime.of(hour, minute).format(formatter)
+        return time
     }
 
 }

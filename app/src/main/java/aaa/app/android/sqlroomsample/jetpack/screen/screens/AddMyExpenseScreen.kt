@@ -1,7 +1,11 @@
 package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.BlueTheme
+import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
+import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
+import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.convertMillisToDate
+import aaa.app.android.sqlroomsample.util.Utils.formattedTime
 import aaa.app.android.sqlroomsample.viewmodel.TasksViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +23,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,7 +32,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
-import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -67,20 +69,9 @@ fun AddMyExpenseScreen(
         item {
             // PasswordValidationSample()
             CoursesAppBar()
-            ExpenseFiled()
-            ExpenseAmountFiled()
-            //TestDerivedState()
-            // DatePickerDocked()
-            DatePickerModal { System.currentTimeMillis() }
-            val currentTime = Calendar.getInstance()
-
-            DialWithDialogExample({
-                TimePickerState(
-                    initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-                    initialMinute = currentTime.get(Calendar.MINUTE),
-                    is24Hour = true,
-                )
-            })
+            ExpenseFiled(viewModel::updateExpense)
+            ExpenseAmountFiled(viewModel::updateExpenseAmount)
+            DateAndTimePicker({ System.currentTimeMillis() }, { viewModel::updateExpenseDate })
             SaveExpenseButton(onClick = viewModel::createNewTask)
         }
 
@@ -88,29 +79,34 @@ fun AddMyExpenseScreen(
 }
 
 @Composable
-fun ExpenseFiled() {
-    var text by remember { mutableStateOf("") }
+fun ExpenseFiled(onExpenseDescription: (String) -> Unit) {
 
+    var text by remember { mutableStateOf("") }
     OutlinedTextField(
         modifier = Modifier
             .padding(12.dp)
             .fillMaxWidth(),
         value = text,
-        onValueChange = { text = it },
+        onValueChange = {
+            onExpenseDescription(it)
+            text = it
+        },
         label = { Text("Expense") }
     )
 }
 
 @Composable
-fun ExpenseAmountFiled() {
+fun ExpenseAmountFiled(expenseAmount: (String) -> Unit) {
     var text by remember { mutableStateOf("") }
-
     OutlinedTextField(
         modifier = Modifier
             .padding(12.dp)
             .fillMaxWidth(),
         value = text,
-        onValueChange = { text = it },
+        onValueChange = {
+            expenseAmount(it)
+            text = it
+        },
         label = { Text("Expense Amount") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
@@ -139,8 +135,9 @@ private fun MyCoursesPreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerModal(
-    onDateSelected: (Long?) -> Unit
+fun DateAndTimePicker(
+    onDateSelected: (Long?) -> Unit,
+    updateExpenseDate: (Long) -> Unit
 ) {
 
     val datePickerState = rememberDatePickerState()
@@ -150,9 +147,26 @@ fun DatePickerModal(
     var showDatePicker by remember {
         mutableStateOf(false)
     }
+
+
+    val currentTime = Calendar.getInstance()
+    var showTime by remember {
+        mutableStateOf(false)
+    }
+    val timePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = false,
+    )
     OutlinedTextField(
         value = selectedDate,
-        onValueChange = { },
+        onValueChange = {
+            val date: Long = convertDateToLong(
+                selectedDate + " " + formattedTime(timePickerState.hour, timePickerState.minute),
+                "$DATE_FORMAT_ONE $TIME_FORMAT_ONE"
+            )
+            updateExpenseDate(date)
+        },
         label = { Text(text = "Date") },
         readOnly = true,
         trailingIcon = {
@@ -190,27 +204,19 @@ fun DatePickerModal(
         }
     }
 
-}
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DialWithDialogExample(
-    onConfirm: (TimePickerState) -> Unit,
-
-    ) {
-    val currentTime = Calendar.getInstance()
-    var showTime by remember {
-        mutableStateOf(false)
-    }
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = true,
-    )
     OutlinedTextField(
-        value = timePickerState.hour.toString() + " : " + timePickerState.minute.toString(),
-        onValueChange = { },
+        value =
+        formattedTime(timePickerState.hour, timePickerState.minute),
+        onValueChange = {
+            val date: Long = convertDateToLong(
+                "$selectedDate $it",
+                "$DATE_FORMAT_ONE $TIME_FORMAT_ONE"
+            )
+            updateExpenseDate(date)
+
+        },
         label = { Text(text = "Time") },
         readOnly = true,
         trailingIcon = {
@@ -234,7 +240,10 @@ fun DialWithDialogExample(
                 state = timePickerState,
             )
         }
+
+
 }
+
 
 @Composable
 fun TimePickerDialog(
@@ -256,49 +265,6 @@ fun TimePickerDialog(
         },
         text = { content() }
     )
-}
-
-@Composable
-fun DerivedCompose(modifier: Modifier, email: String, onClick: () -> Unit) {
-
-
-}
-
-@Composable
-fun TestDerivedState() {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .padding(12.dp)
-    ) {
-        var email by remember { mutableStateOf("") }
-        val bgColor by remember {
-            derivedStateOf {
-                if (email.isBlank()) Color.Red else Color.Green
-            }
-        }
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text(text = "Email") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-        )
-        Button(
-            onClick = {
-                //onClick(UUID.randomUUID().toString())
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = bgColor
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp)
-        ) {
-            Text(text = "test derived state, $email")
-        }
-    }
 }
 
 

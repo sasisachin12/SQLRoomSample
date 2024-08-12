@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,6 +46,24 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             taskRepository.clearCompletedTasks()
 
+        }
+    }
+
+    fun updateExpense(expense: String) {
+        _uiState.update {
+            it.copy(expense = expense)
+        }
+    }
+
+    fun updateExpenseAmount(expenseAmount: String) {
+        _uiState.update {
+            it.copy(amount = expenseAmount)
+        }
+    }
+
+    fun updateExpenseDate(date: Long) {
+        _uiState.update {
+            it.copy(date = date)
         }
     }
 
