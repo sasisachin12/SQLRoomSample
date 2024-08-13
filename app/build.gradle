@@ -15,7 +15,7 @@ android {
         room {
             schemaDirectory("$projectDir/scshemas/")
         }
-        applicationId = "com.example.todolistapp"
+        applicationId = "aaa.app.android"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

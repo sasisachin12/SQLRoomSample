@@ -67,79 +67,30 @@ fun AddMyExpenseScreen(
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         }
         item {
-            // PasswordValidationSample()
             CoursesAppBar()
-            ExpenseFiled(viewModel::updateExpense)
-            ExpenseAmountFiled(viewModel::updateExpenseAmount)
-            DateAndTimePicker({ System.currentTimeMillis() }, { viewModel::updateExpenseDate })
-            SaveExpenseButton(onClick = viewModel::createNewTask)
+            AddMyExpense(
+                viewModel::updateExpense,
+                viewModel::updateExpenseAmount,
+                { System.currentTimeMillis() },
+                viewModel::updateExpenseDate,
+                viewModel::createNewTask
+            )
         }
 
     }
 }
 
-@Composable
-fun ExpenseFiled(onExpenseDescription: (String) -> Unit) {
-
-    var text by remember { mutableStateOf("") }
-    OutlinedTextField(
-        modifier = Modifier
-            .padding(12.dp)
-            .fillMaxWidth(),
-        value = text,
-        onValueChange = {
-            onExpenseDescription(it)
-            text = it
-        },
-        label = { Text("Expense") }
-    )
-}
-
-@Composable
-fun ExpenseAmountFiled(expenseAmount: (String) -> Unit) {
-    var text by remember { mutableStateOf("") }
-    OutlinedTextField(
-        modifier = Modifier
-            .padding(12.dp)
-            .fillMaxWidth(),
-        value = text,
-        onValueChange = {
-            expenseAmount(it)
-            text = it
-        },
-        label = { Text("Expense Amount") },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-    )
-}
-
-@Composable
-fun SaveExpenseButton(onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .padding(12.dp)
-    ) {
-        Text("Save")
-    }
-}
-
-
-@Preview(name = "My Courses")
-@Composable
-private fun MyCoursesPreview() {
-    BlueTheme {
-        AddMyExpenseScreen()
-    }
-}
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DateAndTimePicker(
+fun AddMyExpense(
+    onExpenseDescription: (String) -> Unit,
+    expenseAmount: (String) -> Unit,
     onDateSelected: (Long?) -> Unit,
-    updateExpenseDate: (Long) -> Unit
+    updateExpenseDate: (Long) -> Unit,
+    onClick: () -> Unit
 ) {
-
+    var expenseFor by remember { mutableStateOf("") }
+    var expense by remember { mutableStateOf("") }
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDate(it)
@@ -158,6 +109,34 @@ fun DateAndTimePicker(
         initialMinute = currentTime.get(Calendar.MINUTE),
         is24Hour = false,
     )
+    Column {
+
+        OutlinedTextField(
+            modifier = Modifier
+                .padding(12.dp)
+                .fillMaxWidth(),
+            value = expenseFor,
+            onValueChange = {
+                onExpenseDescription(it)
+                expenseFor = it
+            },
+            label = { Text("Expense") }
+        )
+
+        OutlinedTextField(
+            modifier = Modifier
+                .padding(12.dp)
+                .fillMaxWidth(),
+            value = expense,
+            onValueChange = {
+                expenseAmount(it)
+                expense = it
+            },
+            label = { Text("Expense Amount") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        )
+    }
+
     OutlinedTextField(
         value = selectedDate,
         onValueChange = {
@@ -240,10 +219,27 @@ fun DateAndTimePicker(
                 state = timePickerState,
             )
         }
-
-
+    Button(
+        onClick = {
+            expenseFor = ""
+            expense = ""
+            onClick()
+        },
+        modifier = Modifier
+            .padding(12.dp)
+    ) {
+        Text("Save")
+    }
 }
 
+
+@Preview(name = "My Courses")
+@Composable
+private fun MyCoursesPreview() {
+    BlueTheme {
+        AddMyExpenseScreen()
+    }
+}
 
 @Composable
 fun TimePickerDialog(

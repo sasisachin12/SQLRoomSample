@@ -6,6 +6,7 @@ import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentDate
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentTime
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -68,12 +69,18 @@ class TasksViewModel @Inject constructor(
     }
 
     fun createNewTask() = viewModelScope.launch {
-        taskRepository.createTask(
-            uiState.value.date,
-            uiState.value.expense,
-            uiState.value.amount,
-            uiState.value.isCompleted
-        )
+
+        try {
+            taskRepository.createTask(
+                uiState.value.date,
+                uiState.value.expense,
+                uiState.value.amount,
+                uiState.value.isCompleted
+            )
+        } catch (e: Exception) {
+            val s = e.message
+            Log.e("createNewTask: ", e.message.toString())
+        }
 
     }
 }
