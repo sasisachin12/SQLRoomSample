@@ -6,7 +6,7 @@ import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.convertMillisToDate
 import aaa.app.android.sqlroomsample.util.Utils.formattedTime
-import aaa.app.android.sqlroomsample.viewmodel.TasksViewModel
+import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -54,7 +54,7 @@ import java.util.Calendar
 @Composable
 fun AddMyExpenseScreen(
     modifier: Modifier = Modifier,
-    viewModel: TasksViewModel = hiltViewModel()
+    viewModel: ExpenseViewModel = hiltViewModel()
 ) {
     LazyColumn(
 
@@ -67,7 +67,7 @@ fun AddMyExpenseScreen(
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         }
         item {
-            CoursesAppBar()
+            ExpenseAppBar()
             AddMyExpense(
                 viewModel::updateExpense,
                 viewModel::updateExpenseAmount,

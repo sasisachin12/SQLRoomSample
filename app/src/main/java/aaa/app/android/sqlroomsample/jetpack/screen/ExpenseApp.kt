@@ -1,6 +1,6 @@
 package aaa.app.android.sqlroomsample.jetpack.screen
 
-import aaa.app.android.sqlroomsample.jetpack.screen.screens.CourseTabs
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseTabs
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.BlueTheme
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
@@ -31,7 +31,7 @@ import java.util.Locale
 @Composable
 fun ExpenseApp(finishActivity: () -> Unit) {
     BlueTheme {
-        val tabs = remember { CourseTabs.entries.toTypedArray() }
+        val tabs = remember { ExpenseTabs.entries.toTypedArray() }
         val navController = rememberNavController()
         Scaffold(
             backgroundColor = MaterialTheme.colors.primarySurface,
@@ -47,13 +47,13 @@ fun ExpenseApp(finishActivity: () -> Unit) {
 }
 
 @Composable
-fun MyBottomBar(navController: NavController, tabs: Array<CourseTabs>) {
+fun MyBottomBar(navController: NavController, tabs: Array<ExpenseTabs>) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-        ?: CourseTabs.ADD_EXPENSE.route
+        ?: ExpenseTabs.ADD_EXPENSE.route
 
-    val routes = remember { CourseTabs.entries.map { it.route } }
+    val routes = remember { ExpenseTabs.entries.map { it.route } }
     if (currentRoute in routes) {
         BottomNavigation(
             Modifier.windowInsetsBottomHeight(

@@ -31,7 +31,7 @@ data class AddExpenseUiState(
 
 
 @HiltViewModel
-class TasksViewModel @Inject constructor(
+class ExpenseViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {

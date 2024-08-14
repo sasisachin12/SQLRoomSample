@@ -1,7 +1,6 @@
 package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
 import aaa.app.android.sqlroomsample.R
-import aaa.app.android.sqlroomsample.jetpack.screen.model.courses
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.height
@@ -23,7 +22,7 @@ fun NavGraphBuilder.courses(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    composable(CourseTabs.EXPENSE_LIST.route) { from ->
+    composable(ExpenseTabs.EXPENSE_LIST.route) { from ->
         // Show onboarding instead if not shown yet.
         /*   LaunchedEffect(onboardingComplete) {
                if (!onboardingComplete.value) {
@@ -38,24 +37,20 @@ fun NavGraphBuilder.courses(
                )
            }*/
 
-        ExpenseList(
-            courses = courses,
-            selectCourse = { id -> onCourseSelected(id, from) },
-            modifier = modifier
-        )
+        ExpenseListScreen()
     }
-    composable(CourseTabs.ADD_EXPENSE.route) { from ->
+    composable(ExpenseTabs.ADD_EXPENSE.route) { from ->
         AddMyExpenseScreen()
     }
-    composable(CourseTabs.SETTINGS.route) {
-        Settings(modifier)
+    composable(ExpenseTabs.SETTINGS.route) {
+        SettingsScreen(modifier)
     }
 }
 
 
 @Preview
 @Composable
-fun CoursesAppBar() {
+fun ExpenseAppBar() {
     TopAppBar(
         elevation = 0.dp,
         modifier = Modifier.height(40.dp)
@@ -65,19 +60,19 @@ fun CoursesAppBar() {
     }
 }
 
-enum class CourseTabs(
+enum class ExpenseTabs(
     @StringRes val title: Int,
     @DrawableRes val icon: Int,
     val route: String
 ) {
-    ADD_EXPENSE(R.string.expense, R.drawable.ic_grain, CoursesDestinations.EXPENSE_LIST),
-    EXPENSE_LIST(R.string.expense_list, R.drawable.ic_featured, CoursesDestinations.ADD_EXPENSE),
-    SETTINGS(R.string.settings, R.drawable.ic_search, CoursesDestinations.SETTINGS)
+    ADD_EXPENSE(R.string.expense, R.drawable.ic_grain, Destinations.EXPENSE_LIST),
+    EXPENSE_LIST(R.string.expense_list, R.drawable.ic_featured, Destinations.ADD_EXPENSE),
+    SETTINGS(R.string.settings, R.drawable.ic_search, Destinations.SETTINGS)
 }
 
 
-private object CoursesDestinations {
-    const val ADD_EXPENSE = "courses/featured"
-    const val EXPENSE_LIST = "courses/my"
-    const val SETTINGS = "courses/search"
+private object Destinations {
+    const val ADD_EXPENSE = "add_expense"
+    const val EXPENSE_LIST = "expense_list"
+    const val SETTINGS = "settings"
 }

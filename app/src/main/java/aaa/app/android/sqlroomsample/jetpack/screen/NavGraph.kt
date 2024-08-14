@@ -1,6 +1,6 @@
 package aaa.app.android.sqlroomsample.jetpack.screen
 
-import aaa.app.android.sqlroomsample.jetpack.screen.screens.CourseTabs
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseTabs
 import aaa.app.android.sqlroomsample.jetpack.screen.screens.courses
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
@@ -61,7 +61,7 @@ fun NavGraph(
         }
         navigation(
             route = MainDestinations.COURSES_ROUTE,
-            startDestination = CourseTabs.EXPENSE_LIST.route
+            startDestination = ExpenseTabs.EXPENSE_LIST.route
         ) {
             courses(
                 onCourseSelected = actions.openCourse,
