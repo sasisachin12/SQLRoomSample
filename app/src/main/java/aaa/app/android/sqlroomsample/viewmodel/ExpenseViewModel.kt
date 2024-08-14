@@ -1,6 +1,7 @@
 package aaa.app.android.sqlroomsample.viewmodel
 
 import aaa.app.android.sqlroomsample.data.TaskRepository
+import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
@@ -41,8 +42,8 @@ class ExpenseViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     private val _uiState = MutableStateFlow(AddExpenseUiState())
     val uiState: StateFlow<AddExpenseUiState> = _uiState.asStateFlow()
-
-
+    private var _expenseList: MutableStateFlow<List<ExpenseInfo>?> = MutableStateFlow(null)
+    val expenseList: StateFlow<List<ExpenseInfo>?> = _expenseList.asStateFlow()
     fun clearCompletedTasks() {
         viewModelScope.launch {
             taskRepository.clearCompletedTasks()
@@ -80,6 +81,14 @@ class ExpenseViewModel @Inject constructor(
         } catch (e: Exception) {
             val s = e.message
             Log.e("createNewTask: ", e.message.toString())
+        }
+
+    }
+
+    suspend fun getAllExpense() {
+        viewModelScope.launch {
+            val list = taskRepository.getTasks()
+            _expenseList.value = list
         }
 
     }

@@ -6,7 +6,7 @@ interface TaskRepository {
 
     // fun getTasksStream(): Flow<List<ExpenseInfo>>
 
-    suspend fun getTasks(forceUpdate: Boolean = false): List<ExpenseInfo>
+    suspend fun getTasks(): List<ExpenseInfo>
 
     suspend fun refresh()
 

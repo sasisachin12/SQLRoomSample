@@ -54,10 +54,8 @@ class DefaultTaskRepository @Inject constructor(
         saveTasksToNetwork()
     }
 
-    override suspend fun getTasks(forceUpdate: Boolean): List<ExpenseInfo> {
-        if (forceUpdate) {
-            refresh()
-        }
+    override suspend fun getTasks(): List<ExpenseInfo> {
+
         return withContext(dispatcher) {
             localDataSource.getAll()
         }
