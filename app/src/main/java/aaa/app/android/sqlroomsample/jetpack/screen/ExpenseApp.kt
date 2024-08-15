@@ -1,25 +1,26 @@
 package aaa.app.android.sqlroomsample.jetpack.screen
 
 import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseTabs
-import aaa.app.android.sqlroomsample.jetpack.screen.theme.BlueTheme
+import aaa.app.android.sqlroomsample.jetpack.screen.theme.YellowTheme
+import aaa.app.android.sqlroomsample.jetpack.screen.theme.yellow200
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.primarySurface
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -30,11 +31,12 @@ import java.util.Locale
 
 @Composable
 fun ExpenseApp(finishActivity: () -> Unit) {
-    BlueTheme {
+    YellowTheme {
         val tabs = remember { ExpenseTabs.entries.toTypedArray() }
         val navController = rememberNavController()
         Scaffold(
-            backgroundColor = MaterialTheme.colors.primarySurface,
+
+            containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
             bottomBar = { MyBottomBar(navController = navController, tabs) }
         ) { innerPaddingModifier ->
             NavGraph(
@@ -55,13 +57,14 @@ fun MyBottomBar(navController: NavController, tabs: Array<ExpenseTabs>) {
 
     val routes = remember { ExpenseTabs.entries.map { it.route } }
     if (currentRoute in routes) {
-        BottomNavigation(
-            Modifier.windowInsetsBottomHeight(
+        NavigationBar(
+            modifier = Modifier.windowInsetsBottomHeight(
                 WindowInsets.navigationBars.add(WindowInsets(bottom = 56.dp))
-            )
+            ),
+            containerColor = yellow200
         ) {
             tabs.forEach { tab ->
-                BottomNavigationItem(
+                NavigationBarItem(
                     icon = { Icon(painterResource(tab.icon), contentDescription = null) },
                     label = { Text(stringResource(tab.title).uppercase(Locale.getDefault())) },
                     selected = currentRoute == tab.route,
@@ -77,9 +80,13 @@ fun MyBottomBar(navController: NavController, tabs: Array<ExpenseTabs>) {
                         }
                     },
                     alwaysShowLabel = false,
-                    selectedContentColor = MaterialTheme.colors.secondary,
-                    unselectedContentColor = LocalContentColor.current,
-                    modifier = Modifier.navigationBarsPadding()
+                    modifier = Modifier.navigationBarsPadding(),
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = Color.White,
+                        unselectedIconColor = Color.Gray,
+                        selectedTextColor = Color.White,
+                        indicatorColor = Color.Transparent
+                    )
                 )
             }
         }

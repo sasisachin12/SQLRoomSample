@@ -19,14 +19,14 @@ private val YellowThemeLight = lightColors(
     primary = yellow500,
     primaryVariant = yellow400,
     onPrimary = Color.Black,
-    secondary = blue700,
-    secondaryVariant = blue800,
+    secondary = yellow200,
+    secondaryVariant = yellow800,
     onSecondary = Color.White
 )
 
 private val YellowThemeDark = darkColors(
     primary = yellow200,
-    secondary = blue200,
+    secondary = yellow200,
     onSecondary = Color.Black,
     surface = yellowDarkPrimary
 )
@@ -44,58 +44,6 @@ fun YellowTheme(
     OwlTheme(darkTheme, colors, content)
 }
 
-private val BlueThemeLight = lightColors(
-    primary = blue700,
-    onPrimary = Color.White,
-    primaryVariant = blue800,
-    secondary = yellow500
-)
-
-private val BlueThemeDark = darkColors(
-    primary = blue200,
-    secondary = yellow200,
-    surface = blueDarkPrimary
-)
-
-@Composable
-fun BlueTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
-    val colors = if (darkTheme) {
-        BlueThemeDark
-    } else {
-        BlueThemeLight
-    }
-    OwlTheme(darkTheme, colors, content)
-}
-
-private val PinkThemeLight = lightColors(
-    primary = pink500,
-    secondary = pink500,
-    primaryVariant = pink600,
-    onPrimary = Color.Black,
-    onSecondary = Color.Black
-)
-
-private val PinkThemeDark = darkColors(
-    primary = pink200,
-    secondary = pink200,
-    surface = pinkDarkPrimary
-)
-
-@Composable
-fun PinkTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
-    val colors = if (darkTheme) {
-        PinkThemeDark
-    } else {
-        PinkThemeLight
-    }
-    OwlTheme(darkTheme, colors, content)
-}
 
 private val LightElevation = Elevations()
 
