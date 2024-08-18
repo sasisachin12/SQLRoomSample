@@ -47,4 +47,5 @@
     <string name="expense">Expense</string>
     <string name="expense_list">list</string>
     <string name="settings">settings</string>
+    <string name="delete">delete\n</string>
 </resources>

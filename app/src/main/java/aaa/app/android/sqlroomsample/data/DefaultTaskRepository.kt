@@ -111,9 +111,9 @@ class DefaultTaskRepository @Inject constructor(
         saveTasksToNetwork()
     }
 
-    override suspend fun deleteTask(taskId: String) {
+    override suspend fun deleteTask(taskId: ExpenseInfo) {
         localDataSource.deleteById(taskId)
-        saveTasksToNetwork()
+        // saveTasksToNetwork()
     }
 
     /**

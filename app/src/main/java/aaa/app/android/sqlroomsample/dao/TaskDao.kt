@@ -2,6 +2,7 @@ package aaa.app.android.sqlroomsample.dao
 
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
@@ -34,8 +35,8 @@ interface TaskDao {
     suspend fun updateCompleted(taskId: String, completed: Boolean)
 
 
-    @Query("DELETE FROM expense_table WHERE id = :taskId")
-    suspend fun deleteById(taskId: String): Int
+    @Delete
+    suspend fun deleteById(expenseInfo: ExpenseInfo)
 
 
     @Query("DELETE FROM expense_table WHERE isCompleted = 1")

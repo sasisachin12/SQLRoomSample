@@ -33,5 +33,5 @@ interface TaskRepository {
 
     suspend fun deleteAllTasks()
 
-    suspend fun deleteTask(taskId: String)
+    suspend fun deleteTask(taskId: ExpenseInfo)
 }

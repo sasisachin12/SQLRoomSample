@@ -85,12 +85,24 @@ class ExpenseViewModel @Inject constructor(
 
     }
 
-    suspend fun getAllExpense() {
+    fun getAllExpense() {
         viewModelScope.launch {
             val list = taskRepository.getTasks()
             _expenseList.value = list
         }
 
+    }
+
+    fun deleteRecord(id: ExpenseInfo) {
+        try {
+            viewModelScope.launch {
+                taskRepository.deleteTask(id)
+
+            }
+        } catch (e: Exception) {
+            val s = e.message
+            Log.e("deleteRecord: ", e.message.toString())
+        }
     }
 }
 
