@@ -1,6 +1,6 @@
 package aaa.app.android.sqlroomsample.viewmodel
 
-import aaa.app.android.sqlroomsample.data.TaskRepository
+import aaa.app.android.sqlroomsample.data.ExpenseRepository
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
@@ -33,7 +33,7 @@ data class AddExpenseUiState(
 
 @HiltViewModel
 class ExpenseViewModel @Inject constructor(
-    private val taskRepository: TaskRepository,
+    private val expenseRepository: ExpenseRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -46,7 +46,7 @@ class ExpenseViewModel @Inject constructor(
     val expenseList: StateFlow<List<ExpenseInfo>?> = _expenseList.asStateFlow()
     fun clearCompletedTasks() {
         viewModelScope.launch {
-            taskRepository.clearCompletedTasks()
+            expenseRepository.clearCompletedTasks()
 
         }
     }
@@ -72,7 +72,7 @@ class ExpenseViewModel @Inject constructor(
     fun createNewTask() = viewModelScope.launch {
 
         try {
-            taskRepository.createTask(
+            expenseRepository.createTask(
                 uiState.value.date,
                 uiState.value.expense,
                 uiState.value.amount,
@@ -87,7 +87,7 @@ class ExpenseViewModel @Inject constructor(
 
     fun getAllExpense() {
         viewModelScope.launch {
-            val list = taskRepository.getTasks()
+            val list = expenseRepository.getTasks()
             _expenseList.value = list
         }
 
@@ -96,7 +96,7 @@ class ExpenseViewModel @Inject constructor(
     fun deleteRecord(id: ExpenseInfo) {
         try {
             viewModelScope.launch {
-                taskRepository.deleteTask(id)
+                expenseRepository.deleteTask(id)
 
             }
         } catch (e: Exception) {

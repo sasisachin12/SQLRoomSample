@@ -1,8 +1,8 @@
 package aaa.app.android.sqlroomsample.di
 
 import aaa.app.android.sqlroomsample.dao.TaskDao
-import aaa.app.android.sqlroomsample.data.DefaultTaskRepository
-import aaa.app.android.sqlroomsample.data.TaskRepository
+import aaa.app.android.sqlroomsample.data.DefaultExpenseRepository
+import aaa.app.android.sqlroomsample.data.ExpenseRepository
 import aaa.app.android.sqlroomsample.db.ToDoDatabase
 import android.content.Context
 import androidx.room.Room
@@ -42,7 +42,8 @@ object DatabaseModule {
         taskDao: TaskDao,
         @DefaultDispatcher dispatcher: CoroutineDispatcher,
         @ApplicationScope scope: CoroutineScope
-    ): DefaultTaskRepository = DefaultTaskRepository(localDataSource = taskDao, dispatcher, scope)
+    ): DefaultExpenseRepository =
+        DefaultExpenseRepository(localDataSource = taskDao, dispatcher, scope)
 
 }
 
@@ -53,7 +54,7 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun bindTaskRepository(repository: DefaultTaskRepository): TaskRepository
+    abstract fun bindTaskRepository(repository: DefaultExpenseRepository): ExpenseRepository
 
 
 }

@@ -2,7 +2,7 @@ package aaa.app.android.sqlroomsample.data
 
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 
-interface TaskRepository {
+interface ExpenseRepository {
 
     // fun getTasksStream(): Flow<List<ExpenseInfo>>
 

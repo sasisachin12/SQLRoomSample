@@ -13,12 +13,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DefaultTaskRepository @Inject constructor(
+class DefaultExpenseRepository @Inject constructor(
 
     private val localDataSource: TaskDao,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
     @ApplicationScope private val scope: CoroutineScope,
-) : TaskRepository {
+) : ExpenseRepository {
 
     override suspend fun createTask(
         date: Long,
