@@ -4,6 +4,7 @@ import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import android.text.TextUtils
 import androidx.core.util.PatternsCompat
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -84,6 +85,11 @@ object Utils {
         val formatter = DateTimeFormatter.ofPattern(TIME_FORMAT_ONE)
         val time = LocalTime.of(hour, minute).format(formatter)
         return time
+    }
+
+    fun numberToRupees(numb: Int): String {
+        val formatter: NumberFormat = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+        return formatter.format(numb)
     }
 
 }

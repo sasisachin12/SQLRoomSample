@@ -2,7 +2,9 @@ package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
 import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
+import aaa.app.android.sqlroomsample.jetpack.screen.theme.rowBackGround
 import aaa.app.android.sqlroomsample.util.Utils.convertLongToTime
+import aaa.app.android.sqlroomsample.util.Utils.numberToRupees
 import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,17 +15,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
@@ -54,7 +61,7 @@ fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
 
             items(items = list,
                 itemContent = {
-                    ExpenseItemRow(it, { viewModel::deleteRecord })
+                    ExpenseItemRow(it, viewModel::deleteRecord)
                 })
 
 
@@ -71,21 +78,20 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
         .padding(2.dp)
         .padding(2.dp)
 
+    Text(
+        text = convertLongToTime(expenseInfoItem.date),
+        modifier = modifier,
+        color = Color.Gray,
 
-    Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text(
-            text = convertLongToTime(expenseInfoItem.date),
-            modifier = modifier.weight(1f),
-            color = Color.Gray
         )
-        Text(text = expenseInfoItem.expense, modifier = modifier.weight(0.5f), color = Color.Black)
-        Text(
-            text = expenseInfoItem.amount,
-            modifier = modifier
-                .weight(0.5f)
-                .fillMaxWidth(),
-            color = Color.Magenta
-        )
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(16.dp))
+            .background(color = rowBackGround),
+
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         IconButton(onClick = {
             deleteClick(expenseInfoItem)
         }, modifier = modifier.weight(0.5f)) {
@@ -95,7 +101,28 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
             )
         }
 
+
+        Text(
+            text = expenseInfoItem.expense,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = modifier
+                .weight(2f)
+                .align(Alignment.CenterVertically),
+            color = Color.Black
+        )
+        Text(
+            text = numberToRupees(expenseInfoItem.amount.toInt()),
+
+            modifier = modifier
+                .weight(1f)
+                .align(Alignment.CenterVertically),
+            textAlign = TextAlign.End,
+            color = Color.Black
+        )
+
+
     }
+
 
 }
 
