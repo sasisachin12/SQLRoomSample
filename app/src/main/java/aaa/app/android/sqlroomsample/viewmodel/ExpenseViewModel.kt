@@ -8,7 +8,6 @@ import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentDate
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentTime
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,23 +32,14 @@ data class AddExpenseUiState(
 
 @HiltViewModel
 class ExpenseViewModel @Inject constructor(
-    private val expenseRepository: ExpenseRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val expenseRepository: ExpenseRepository
 ) : ViewModel() {
 
 
-    private val _userMessage: MutableStateFlow<Int?> = MutableStateFlow(null)
-    private val _isLoading = MutableStateFlow(false)
     private val _uiState = MutableStateFlow(AddExpenseUiState())
-    val uiState: StateFlow<AddExpenseUiState> = _uiState.asStateFlow()
-    private var _expenseList: MutableStateFlow<List<ExpenseInfo>?> = MutableStateFlow(null)
+    private val uiState: StateFlow<AddExpenseUiState> = _uiState.asStateFlow()
+    private var _expenseList: MutableStateFlow<List<ExpenseInfo>?> = MutableStateFlow(emptyList())
     val expenseList: StateFlow<List<ExpenseInfo>?> = _expenseList.asStateFlow()
-    fun clearCompletedTasks() {
-        viewModelScope.launch {
-            expenseRepository.clearCompletedTasks()
-
-        }
-    }
 
     fun updateExpense(expense: String) {
         _uiState.update {
@@ -79,7 +69,6 @@ class ExpenseViewModel @Inject constructor(
                 uiState.value.isCompleted
             )
         } catch (e: Exception) {
-            val s = e.message
             Log.e("createNewTask: ", e.message.toString())
         }
 
@@ -97,12 +86,19 @@ class ExpenseViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 expenseRepository.deleteTask(id)
-
+                getRefresh()
             }
         } catch (e: Exception) {
-            val s = e.message
             Log.e("deleteRecord: ", e.message.toString())
         }
+    }
+
+    private fun getRefresh() {
+        viewModelScope.launch {
+            val list = expenseRepository.getTasks()
+            _expenseList.value = list
+        }
+
     }
 }
 

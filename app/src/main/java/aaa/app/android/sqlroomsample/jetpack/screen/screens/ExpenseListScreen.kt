@@ -18,6 +18,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +27,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,24 +61,20 @@ fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
     LaunchedEffect(true) {
         viewModel.getAllExpense()
     }
-    val list = viewModel.expenseList.collectAsState().value
-    list?.let {
-        LazyColumn {
+    val list = viewModel.expenseList.collectAsState()
 
-            items(items = list,
-                itemContent = {
-                    ExpenseItemRow(it, viewModel::deleteRecord)
-                })
+    LazyColumn {
+        items(items = list.value as List<ExpenseInfo>,
+            itemContent = {
+                ExpenseItemRow(it, viewModel::deleteRecord)
+            })
 
-
-        }
     }
 
 
 }
 
 @Composable
-
 fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> Unit) {
     val modifier = Modifier
         .padding(2.dp)
@@ -92,13 +94,24 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
 
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        var isClicked by remember { mutableStateOf(false) }
+
         IconButton(onClick = {
-            deleteClick(expenseInfoItem)
+            isClicked = true
+
         }, modifier = modifier.weight(0.5f)) {
             Icon(
                 Icons.Rounded.Delete,
                 contentDescription = stringResource(id = R.string.delete)
             )
+        }
+
+        if (isClicked) {
+            ConfirmDialog(
+                title = "Delete",
+                content = "do you want delete?",
+                { deleteClick(expenseInfoItem) },
+                { isClicked = false })
         }
 
 
@@ -124,5 +137,56 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
     }
 
 
+}
+
+@Composable
+fun ConfirmDialog(
+    title: String? = null,
+    content: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        modifier = Modifier.fillMaxWidth(),
+        onDismissRequest = {
+            onDismiss()
+        },
+
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+            ) {
+
+                if (!title.isNullOrEmpty()) {
+                    Text(
+                        title,
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                }
+                Text(content)
+
+            }
+        },
+
+        dismissButton = {
+            Button(onClick = {
+                onDismiss()
+
+            }) {
+                Text("No")
+            }
+        },
+        confirmButton = {
+            Button(onClick = {
+                onConfirm()
+                onDismiss()
+            }) {
+                Text("Yes")
+            }
+        }
+    )
 }
 
