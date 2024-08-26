@@ -15,11 +15,11 @@ android {
         room {
             schemaDirectory("$projectDir/scshemas/")
         }
-        applicationId = "aaa.app.android"
+        applicationId = "aaa.app.android.sqlroomsample"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 10
+        versionName = "1.0.10"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
