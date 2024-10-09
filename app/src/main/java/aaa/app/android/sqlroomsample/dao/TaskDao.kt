@@ -22,24 +22,10 @@ interface TaskDao {
     @Query("SELECT * FROM expense_table WHERE id = :taskId")
     suspend fun getById(taskId: String): ExpenseInfo?
 
-
     @Upsert
     suspend fun upsert(task: ExpenseInfo)
 
-
-    @Upsert
-    suspend fun upsertAll(tasks: List<ExpenseInfo>)
-
-
-    @Query("UPDATE expense_table SET isCompleted = :completed WHERE id = :taskId")
-    suspend fun updateCompleted(taskId: String, completed: Boolean)
-
-
     @Delete
     suspend fun deleteById(expenseInfo: ExpenseInfo)
-
-
-    @Query("DELETE FROM expense_table WHERE isCompleted = 1")
-    suspend fun deleteCompleted(): Int
 
 }

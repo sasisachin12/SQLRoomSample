@@ -76,7 +76,7 @@ fun AddMyExpenseScreen(
                 viewModel::updateExpenseAmount,
                 { System.currentTimeMillis() },
                 viewModel::updateExpenseDate,
-                viewModel::createNewTask
+                viewModel::addExpense
             )
         }
 

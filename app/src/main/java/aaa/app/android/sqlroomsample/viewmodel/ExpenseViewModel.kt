@@ -44,10 +44,9 @@ class ExpenseViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(AddExpenseUiState())
     private val uiState: StateFlow<AddExpenseUiState> = _uiState.asStateFlow()
-    private var _expenseList: MutableStateFlow<List<ExpenseInfo>?> = MutableStateFlow(emptyList())
-    val expenseList: StateFlow<List<ExpenseInfo>?> = _expenseList.asStateFlow()
 
-    val uiStateNew: StateFlow<MyModelUiState> = expenseRepository
+
+    val expenseList: StateFlow<MyModelUiState> = expenseRepository
         .myModels.map<List<ExpenseInfo>, MyModelUiState> { Success(data = it) }
         .catch { emit(MyModelUiState.Error(it)) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
@@ -71,47 +70,34 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-    fun createNewTask() = viewModelScope.launch {
-
+    fun addExpense() = viewModelScope.launch {
         try {
-            expenseRepository.createTask(
+            val expenseInfo = ExpenseInfo(
+                id = null,
                 uiState.value.date,
                 uiState.value.expense,
-                uiState.value.amount,
-                uiState.value.isCompleted
+                uiState.value.amount
             )
+            expenseRepository.addExpense(expenseInfo)
         } catch (e: Exception) {
             Log.e("createNewTask: ", e.message.toString())
         }
 
     }
 
-    fun getAllExpense() {
-        viewModelScope.launch {
-            val list = expenseRepository.getTasks()
-            //  _expenseList.value = list
-        }
 
-    }
 
     fun deleteRecord(id: ExpenseInfo) {
         try {
             viewModelScope.launch {
                 expenseRepository.deleteTask(id)
-                //            c getRefresh()
             }
         } catch (e: Exception) {
             Log.e("deleteRecord: ", e.message.toString())
         }
     }
 
-    private fun getRefresh() {
-        viewModelScope.launch {
-            val list = expenseRepository.getTasks()
-            // _expenseList.value = list
-        }
 
-    }
 }
 
 sealed interface MyModelUiState {

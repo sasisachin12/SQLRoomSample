@@ -62,7 +62,7 @@ fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
          viewModel.getAllExpense()
      }*/
     //val list = viewModel.expenseList.collectAsState()
-    val items by viewModel.uiStateNew.collectAsStateWithLifecycle()
+    val items by viewModel.expenseList.collectAsStateWithLifecycle()
     if (items is MyModelUiState.Success) {
         LazyColumn {
             items(items = (items as MyModelUiState.Success).data,

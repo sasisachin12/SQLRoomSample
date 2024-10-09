@@ -7,32 +7,11 @@ interface ExpenseRepository {
 
     val myModels: Flow<List<ExpenseInfo>>
 
-    suspend fun getTasks(): Flow<List<ExpenseInfo>>
 
-    suspend fun refresh()
-
-    //fun getTaskStream(taskId: String): Flow<ExpenseInfo?>
-
-    suspend fun getTask(taskId: String, forceUpdate: Boolean = false): ExpenseInfo?
-
-    suspend fun refreshTask(taskId: String)
-
-    suspend fun createTask(
-        date: Long,
-        expense: String,
-        amount: String,
-        isCompleted: Boolean
+    suspend fun addExpense(
+        expenseInfo: ExpenseInfo
     ): String
 
-    suspend fun updateTask(taskId: String, title: String, description: String)
-
-    suspend fun completeTask(taskId: String)
-
-    suspend fun activateTask(taskId: String)
-
-    suspend fun clearCompletedTasks()
-
-    suspend fun deleteAllTasks()
 
     suspend fun deleteTask(taskId: ExpenseInfo)
 }

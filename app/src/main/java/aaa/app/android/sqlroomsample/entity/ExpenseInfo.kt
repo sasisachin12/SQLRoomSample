@@ -13,5 +13,5 @@ class ExpenseInfo(
     @ColumnInfo(name = "date") val date: Long,
     @ColumnInfo(name = "expense") val expense: String,
     @ColumnInfo(name = "amount") val amount: String,
-    @ColumnInfo(name = "isCompleted") var isCompleted: Boolean
-)
+
+    )
