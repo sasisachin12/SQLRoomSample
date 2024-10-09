@@ -10,7 +10,7 @@ val yellow800 = Color(0xFFEF6C00)
 val yellowDarkPrimary = Color(0xFFFF6D00)
 
 
-val yellowBackGround = Color(0xffF4C27F)
+val yellowBackGround = Color(0xFFFAFAF9)
 val rowBackGround = Color(0xffFFFAEB)
 
 

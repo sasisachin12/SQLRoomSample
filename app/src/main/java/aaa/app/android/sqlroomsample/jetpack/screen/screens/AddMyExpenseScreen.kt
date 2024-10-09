@@ -59,9 +59,10 @@ fun AddMyExpenseScreen(
     modifier: Modifier = Modifier,
     viewModel: ExpenseViewModel = hiltViewModel()
 ) {
+
     LazyColumn(
 
-        modifier = modifier
+        modifier = Modifier
             .background(color = yellowBackGround)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -70,8 +71,8 @@ fun AddMyExpenseScreen(
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         }
         item {
-            ExpenseAppBar()
-            AddMyExpense(
+
+        AddMyExpense(
                 viewModel::updateExpense,
                 viewModel::updateExpenseAmount,
                 { System.currentTimeMillis() },

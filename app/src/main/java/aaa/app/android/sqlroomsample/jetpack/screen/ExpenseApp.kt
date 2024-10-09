@@ -1,5 +1,7 @@
 package aaa.app.android.sqlroomsample.jetpack.screen
 
+import aaa.app.android.sqlroomsample.R
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseAppBar
 import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseTabs
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.YellowTheme
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.yellow200
@@ -35,7 +37,7 @@ fun ExpenseApp(finishActivity: () -> Unit) {
         val tabs = remember { ExpenseTabs.entries.toTypedArray() }
         val navController = rememberNavController()
         Scaffold(
-
+            topBar = { ExpenseAppBar(stringResource(R.string.expense)) },
             containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
             bottomBar = { MyBottomBar(navController = navController, tabs) }
         ) { innerPaddingModifier ->

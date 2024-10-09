@@ -42,26 +42,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 
 @Composable
-fun ExpenseListScreen() {
-
+fun ExpenseListScreen(modifier1: Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
     ) {
-        ExpenseAppBar()
         ExpenseList()
     }
-
-
 }
 
 @Composable
 fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
-    /* LaunchedEffect(true) {
-         viewModel.getAllExpense()
-     }*/
-    //val list = viewModel.expenseList.collectAsState()
     val items by viewModel.expenseList.collectAsStateWithLifecycle()
     if (items is MyModelUiState.Success) {
         LazyColumn {
