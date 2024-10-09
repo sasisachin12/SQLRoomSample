@@ -7,13 +7,19 @@ import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentDate
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentTime
+import aaa.app.android.sqlroomsample.viewmodel.MyModelUiState.Loading
+import aaa.app.android.sqlroomsample.viewmodel.MyModelUiState.Success
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,6 +46,12 @@ class ExpenseViewModel @Inject constructor(
     private val uiState: StateFlow<AddExpenseUiState> = _uiState.asStateFlow()
     private var _expenseList: MutableStateFlow<List<ExpenseInfo>?> = MutableStateFlow(emptyList())
     val expenseList: StateFlow<List<ExpenseInfo>?> = _expenseList.asStateFlow()
+
+    val uiStateNew: StateFlow<MyModelUiState> = expenseRepository
+        .myModels.map<List<ExpenseInfo>, MyModelUiState> { Success(data = it) }
+        .catch { emit(MyModelUiState.Error(it)) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+
 
     fun updateExpense(expense: String) {
         _uiState.update {
@@ -77,7 +89,7 @@ class ExpenseViewModel @Inject constructor(
     fun getAllExpense() {
         viewModelScope.launch {
             val list = expenseRepository.getTasks()
-            _expenseList.value = list
+            //  _expenseList.value = list
         }
 
     }
@@ -86,7 +98,7 @@ class ExpenseViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 expenseRepository.deleteTask(id)
-                getRefresh()
+                //            c getRefresh()
             }
         } catch (e: Exception) {
             Log.e("deleteRecord: ", e.message.toString())
@@ -96,10 +108,16 @@ class ExpenseViewModel @Inject constructor(
     private fun getRefresh() {
         viewModelScope.launch {
             val list = expenseRepository.getTasks()
-            _expenseList.value = list
+            // _expenseList.value = list
         }
 
     }
+}
+
+sealed interface MyModelUiState {
+    object Loading : MyModelUiState
+    data class Error(val throwable: Throwable) : MyModelUiState
+    data class Success(val data: List<ExpenseInfo>) : MyModelUiState
 }
 
 

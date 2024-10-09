@@ -16,7 +16,7 @@ interface TaskDao {
 
 
     @Query("SELECT * FROM expense_table")
-    suspend fun getAll(): List<ExpenseInfo>
+    fun getAll(): Flow<List<ExpenseInfo>>
 
 
     @Query("SELECT * FROM expense_table WHERE id = :taskId")

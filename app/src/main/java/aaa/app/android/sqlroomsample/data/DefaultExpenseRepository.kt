@@ -6,6 +6,7 @@ import aaa.app.android.sqlroomsample.di.DefaultDispatcher
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
@@ -54,7 +55,9 @@ class DefaultExpenseRepository @Inject constructor(
         saveTasksToNetwork()
     }
 
-    override suspend fun getTasks(): List<ExpenseInfo> {
+    override val myModels: Flow<List<ExpenseInfo>> = localDataSource.getAll()
+
+    override suspend fun getTasks(): Flow<List<ExpenseInfo>> {
 
         return withContext(dispatcher) {
             localDataSource.getAll()

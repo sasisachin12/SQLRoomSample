@@ -6,6 +6,7 @@ import aaa.app.android.sqlroomsample.jetpack.screen.theme.rowBackGround
 import aaa.app.android.sqlroomsample.util.Utils.convertLongToTime
 import aaa.app.android.sqlroomsample.util.Utils.numberToRupees
 import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
+import aaa.app.android.sqlroomsample.viewmodel.MyModelUiState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,8 +26,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 
 @Composable
@@ -58,17 +58,19 @@ fun ExpenseListScreen() {
 
 @Composable
 fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
-    LaunchedEffect(true) {
-        viewModel.getAllExpense()
-    }
-    val list = viewModel.expenseList.collectAsState()
+    /* LaunchedEffect(true) {
+         viewModel.getAllExpense()
+     }*/
+    //val list = viewModel.expenseList.collectAsState()
+    val items by viewModel.uiStateNew.collectAsStateWithLifecycle()
+    if (items is MyModelUiState.Success) {
+        LazyColumn {
+            items(items = (items as MyModelUiState.Success).data,
+                itemContent = {
+                    ExpenseItemRow(it, viewModel::deleteRecord)
+                })
 
-    LazyColumn {
-        items(items = list.value as List<ExpenseInfo>,
-            itemContent = {
-                ExpenseItemRow(it, viewModel::deleteRecord)
-            })
-
+        }
     }
 
 
