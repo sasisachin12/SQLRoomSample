@@ -67,7 +67,7 @@ fun ExpenseAppBar(title: String) {
         ),
         title = {
             Text(
-                "Medium Top App Bar",
+                title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
