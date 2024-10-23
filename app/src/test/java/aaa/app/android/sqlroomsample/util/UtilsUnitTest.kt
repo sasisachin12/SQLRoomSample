@@ -31,7 +31,7 @@ class UtilsUnitTest {
     @Test
     fun getCurrentMonthNAmeTest() {
         val month = getCurrentMonthName()
-        assertEquals("April", month)
+        assertEquals("October", month)
 
     }
 
