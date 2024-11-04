@@ -1,6 +1,6 @@
 [versions]
-agp = "8.8.0-alpha07"
-gradle = "8.8.0-alpha07"
+agp = "8.8.0-alpha09"
+gradle = "8.8.0-alpha09"
 hiltAndroidCompiler = "2.52"
 hiltCompiler = "1.2.0"
 hiltLifecycleViewmodel = "1.0.0-alpha03"
