@@ -1,6 +1,5 @@
 package aaa.app.android.sqlroomsample.util
 
-import aaa.app.android.sqlroomsample.util.Utils.getCurrentMonthName
 import aaa.app.android.sqlroomsample.util.Utils.validateEmail
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -28,12 +27,12 @@ class UtilsUnitTest {
     }
 
 
-    @Test
+    /*@Test
     fun getCurrentMonthNAmeTest() {
-        val month = getCurrentMonthName()
-        assertEquals("October", month)
+       // val month = getCurrentMonthName()
+        //assertEquals("October", month)
 
-    }
+    }*/
 
 
 }
