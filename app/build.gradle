@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "aaa.app.android.sqlroomsample"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         room {
             schemaDirectory("$projectDir/scshemas/")
