@@ -65,9 +65,6 @@ fun NavGraph(
             startDestination = ExpenseTabs.EXPENSE_LIST.route
         ) {
             courses(
-                onCourseSelected = actions.openCourse,
-                onboardingComplete = onboardingComplete,
-                navController = navController,
                 modifier = modifier
             )
         }

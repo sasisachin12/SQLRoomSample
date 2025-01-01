@@ -42,7 +42,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 
 @Composable
-fun ExpenseListScreen(modifier1: Modifier) {
+fun ExpenseListScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()

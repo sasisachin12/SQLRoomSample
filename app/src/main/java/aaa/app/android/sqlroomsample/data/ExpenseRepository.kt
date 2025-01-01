@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ExpenseRepository {
 
-    val myModels: Flow<List<ExpenseInfo>>
+    val expenseList: Flow<List<ExpenseInfo>>
 
 
     suspend fun addExpense(

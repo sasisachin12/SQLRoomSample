@@ -32,7 +32,7 @@ class DefaultExpenseRepository @Inject constructor(
     }
 
 
-    override val myModels: Flow<List<ExpenseInfo>> = localDataSource.getAll()
+    override val expenseList: Flow<List<ExpenseInfo>> = localDataSource.getAll()
 
     override suspend fun deleteTask(taskId: ExpenseInfo) {
         localDataSource.deleteById(taskId)

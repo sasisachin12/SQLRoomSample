@@ -47,7 +47,7 @@ class ExpenseViewModel @Inject constructor(
 
 
     val expenseList: StateFlow<MyModelUiState> = expenseRepository
-        .myModels.map<List<ExpenseInfo>, MyModelUiState> { Success(data = it) }
+        .expenseList.map<List<ExpenseInfo>, MyModelUiState> { Success(data = it) }
         .catch { emit(MyModelUiState.Error(it)) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
 
