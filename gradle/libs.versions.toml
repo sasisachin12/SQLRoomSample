@@ -1,6 +1,6 @@
 [versions]
-agp = "8.7.3"
-gradle = "8.7.3"
+agp = "8.12.0"
+gradle = "8.12.0"
 gradleVersion = "8.7.3"
 hiltAndroidCompiler = "2.52"
 hiltCompiler = "1.2.0"

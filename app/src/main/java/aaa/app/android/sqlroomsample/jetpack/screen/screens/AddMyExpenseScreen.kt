@@ -1,6 +1,5 @@
 package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
-
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.YellowTheme
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.yellow800
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.yellowBackGround
@@ -11,7 +10,6 @@ import aaa.app.android.sqlroomsample.util.Utils.convertMillisToDate
 import aaa.app.android.sqlroomsample.util.Utils.formattedTime
 import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -39,7 +37,6 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,35 +49,31 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import java.util.Calendar
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddMyExpenseScreen(
     modifier: Modifier = Modifier,
-    viewModel: ExpenseViewModel = hiltViewModel()
+    viewModel: ExpenseViewModel = hiltViewModel(),
 ) {
-
     LazyColumn(
-
-        modifier = Modifier
-            .background(color = yellowBackGround)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .background(color = yellowBackGround)
+                .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         item {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.statusBars))
         }
         item {
-
-        AddMyExpense(
+            AddMyExpense(
                 viewModel::updateExpense,
                 viewModel::updateExpenseAmount,
                 { System.currentTimeMillis() },
                 viewModel::updateExpenseDate,
-                viewModel::addExpense
+                viewModel::addExpense,
             )
         }
-
     }
 }
 
@@ -91,63 +84,66 @@ fun AddMyExpense(
     expenseAmount: (String) -> Unit,
     onDateSelected: (Long?) -> Unit,
     updateExpenseDate: (Long) -> Unit,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     var expenseFor by remember { mutableStateOf("") }
     var expense by remember { mutableStateOf("") }
     val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
+    val selectedDate =
+        datePickerState.selectedDateMillis?.let {
+            convertMillisToDate(it)
+        } ?: ""
     var showDatePicker by remember {
         mutableStateOf(false)
     }
-
 
     val currentTime = Calendar.getInstance()
     var showTime by remember {
         mutableStateOf(false)
     }
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = false,
-    )
+    val timePickerState =
+        rememberTimePickerState(
+            initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+            initialMinute = currentTime.get(Calendar.MINUTE),
+            is24Hour = false,
+        )
     Column {
-
         OutlinedTextField(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth(),
             value = expenseFor,
             onValueChange = {
                 onExpenseDescription(it)
                 expenseFor = it
             },
-            label = { Text("Expense") }
+            label = { Text("Expense") },
         )
 
         OutlinedTextField(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth(),
             value = expense,
             onValueChange = {
                 expenseAmount(it)
                 expense = it
             },
             label = { Text("Expense Amount") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         )
     }
 
     OutlinedTextField(
         value = selectedDate,
         onValueChange = {
-            val date: Long = convertDateToLong(
-                selectedDate + " " + formattedTime(timePickerState.hour, timePickerState.minute),
-                "$DATE_FORMAT_ONE $TIME_FORMAT_ONE"
-            )
+            val date: Long =
+                convertDateToLong(
+                    selectedDate + " " + formattedTime(timePickerState.hour, timePickerState.minute),
+                    "$DATE_FORMAT_ONE $TIME_FORMAT_ONE",
+                )
             updateExpenseDate(date)
         },
         label = { Text(text = "Date") },
@@ -156,15 +152,15 @@ fun AddMyExpense(
             IconButton(onClick = { showDatePicker = !showDatePicker }) {
                 Icon(
                     imageVector = Icons.Default.DateRange,
-                    contentDescription = "Select date"
+                    contentDescription = "Select date",
                 )
             }
         },
-        modifier = Modifier
-            .padding(12.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(12.dp)
+                .fillMaxWidth(),
     )
-
 
     if (showDatePicker) {
         DatePickerDialog(
@@ -181,24 +177,22 @@ fun AddMyExpense(
                 TextButton(onClick = { showDatePicker = false }) {
                     Text("Cancel")
                 }
-            }
+            },
         ) {
             DatePicker(state = datePickerState)
         }
     }
 
-
-
     OutlinedTextField(
         value =
-        formattedTime(timePickerState.hour, timePickerState.minute),
+            formattedTime(timePickerState.hour, timePickerState.minute),
         onValueChange = {
-            val date: Long = convertDateToLong(
-                "$selectedDate $it",
-                "$DATE_FORMAT_ONE $TIME_FORMAT_ONE"
-            )
+            val date: Long =
+                convertDateToLong(
+                    "$selectedDate $it",
+                    "$DATE_FORMAT_ONE $TIME_FORMAT_ONE",
+                )
             updateExpenseDate(date)
-
         },
         label = { Text(text = "Time") },
         readOnly = true,
@@ -206,37 +200,39 @@ fun AddMyExpense(
             IconButton(onClick = { showTime = !showTime }) {
                 Icon(
                     imageVector = Icons.Default.DateRange,
-                    contentDescription = "Select date"
+                    contentDescription = "Select date",
                 )
             }
         },
-        modifier = Modifier
-            .padding(12.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(12.dp)
+                .fillMaxWidth(),
     )
-    if (showTime)
+    if (showTime) {
         TimePickerDialog(
             onDismiss = { showTime = false },
-            onConfirm = { showTime = false }
+            onConfirm = { showTime = false },
         ) {
             TimePicker(
                 state = timePickerState,
             )
         }
+    }
     Button(
         onClick = {
             expenseFor = ""
             expense = ""
             onClick()
         },
-        modifier = Modifier
-            .padding(12.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = yellow800)
+        modifier =
+            Modifier
+                .padding(12.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = yellow800),
     ) {
         Text("Save")
     }
 }
-
 
 @Preview(name = "My Courses")
 @Composable
@@ -250,7 +246,7 @@ private fun MyCoursesPreview() {
 fun TimePickerDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -264,38 +260,6 @@ fun TimePickerDialog(
                 Text("OK")
             }
         },
-        text = { content() }
+        text = { content() },
     )
 }
-
-
-@Composable
-fun PasswordValidationSample() {
-    var password by remember {
-        mutableStateOf("")
-    }
-    var confirmPassword by remember {
-        mutableStateOf("")
-    }
-    val isNotMatching = remember {
-        derivedStateOf {
-            password.isBlank()
-        }
-    }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
-    ) {
-        OutlinedTextField(value = password, onValueChange = { password = it })
-        OutlinedTextField(value = confirmPassword, onValueChange = { confirmPassword = it })
-        if (isNotMatching.value) {
-            Text(text = "Passwords blank")
-        }
-    }
-}
-
-
-
-
-
