@@ -9,15 +9,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
-
-
     @Query("SELECT * FROM expense_table WHERE id = :taskId")
     fun observeById(taskId: String): Flow<ExpenseInfo>
 
-
     @Query("SELECT * FROM expense_table")
     fun getAll(): Flow<List<ExpenseInfo>>
-
 
     @Query("SELECT * FROM expense_table WHERE id = :taskId")
     suspend fun getById(taskId: String): ExpenseInfo?
@@ -27,5 +23,4 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteById(expenseInfo: ExpenseInfo)
-
 }
