@@ -11,6 +11,7 @@ plugins {
 android {
     namespace = "aaa.app.android.sqlroomsample"
     compileSdk = 36
+    buildToolsVersion = "34.0.0"
     defaultConfig {
         room {
             schemaDirectory("$projectDir/scshemas/")
@@ -27,13 +28,12 @@ android {
         }
     }
 
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17 // Or your desired Java version
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = '17' // Must match the Java version
     }
     buildFeatures {
         compose = true
@@ -55,15 +55,13 @@ android {
 }
 
 dependencies {
-
-
     implementation(libs.androidx.navigation.compose)
 
     //hilt
     implementation(libs.hilt.android)
-    implementation libs.androidx.lifecycle.runtime.compose.android
-    implementation libs.androidx.constraintlayout
-    implementation libs.androidx.appcompat
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.appcompat)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
@@ -71,7 +69,6 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.symbol.processing.api)
 
     implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.core.ktx)
