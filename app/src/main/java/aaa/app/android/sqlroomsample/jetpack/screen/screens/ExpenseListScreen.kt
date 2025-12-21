@@ -1,7 +1,7 @@
 package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
 import aaa.app.android.sqlroomsample.R
-import aaa.app.android.sqlroomsample.entity.ExpenseInfo
+import aaa.app.android.sqlroomsample.domain.model.Expense
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.rowBackGround
 import aaa.app.android.sqlroomsample.util.Utils.convertLongToTime
 import aaa.app.android.sqlroomsample.util.Utils.numberToRupees
@@ -69,13 +69,13 @@ fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> Unit) {
+fun ExpenseItemRow(expenseItem: Expense, deleteClick: (Expense) -> Unit) {
     val modifier = Modifier
         .padding(2.dp)
         .padding(2.dp)
 
     Text(
-        text = convertLongToTime(expenseInfoItem.date),
+        text = convertLongToTime(expenseItem.date),
         modifier = modifier,
         color = Color.Gray,
 
@@ -104,13 +104,13 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
             ConfirmDialog(
                 title = "Delete",
                 content = "do you want delete?",
-                { deleteClick(expenseInfoItem) },
+                { deleteClick(expenseItem) },
                 { isClicked = false })
         }
 
 
         Text(
-            text = expenseInfoItem.expense,
+            text = expenseItem.expense,
             style = MaterialTheme.typography.titleLarge,
             modifier = modifier
                 .weight(2f)
@@ -118,7 +118,7 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
             color = Color.Black
         )
         Text(
-            text = numberToRupees(expenseInfoItem.amount.toInt()),
+            text = numberToRupees(expenseItem.amount.toInt()),
 
             modifier = modifier
                 .weight(1f)
