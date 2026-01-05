@@ -4,19 +4,16 @@ import aaa.app.android.sqlroomsample.R
 import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseAppBar
 import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseTabs
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.YellowTheme
-import aaa.app.android.sqlroomsample.jetpack.screen.theme.yellow200
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,26 +22,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import java.util.Locale
 
 @Composable
 fun ExpenseApp(finishActivity: () -> Unit) {
     YellowTheme {
         val tabs = remember { ExpenseTabs.entries.toTypedArray() }
         val navController = rememberNavController()
+        val snackbarHostState = remember { SnackbarHostState() }
         Scaffold(
             topBar = { ExpenseAppBar(stringResource(R.string.expense)) },
-            containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            bottomBar = { MyBottomBar(navController = navController, tabs) }
+            containerColor = MaterialTheme.colorScheme.background,
+            bottomBar = { MyBottomBar(navController = navController, tabs) },
+            snackbarHost = { 
+                SnackbarHost(hostState = snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = Color(0xFF4CAF50), // Green color
+                        contentColor = Color.White,
+                        snackbarData = data
+                    )
+                }
+            }
         ) { innerPaddingModifier ->
             NavGraph(
                 finishActivity = finishActivity,
                 navController = navController,
-                modifier = Modifier.padding(innerPaddingModifier)
+                modifier = Modifier.padding(innerPaddingModifier),
+                snackBarHostState = snackbarHostState
             )
         }
     }
@@ -52,7 +58,6 @@ fun ExpenseApp(finishActivity: () -> Unit) {
 
 @Composable
 fun MyBottomBar(navController: NavController, tabs: Array<ExpenseTabs>) {
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
         ?: ExpenseTabs.ADD_EXPENSE.route
@@ -60,16 +65,24 @@ fun MyBottomBar(navController: NavController, tabs: Array<ExpenseTabs>) {
     val routes = remember { ExpenseTabs.entries.map { it.route } }
     if (currentRoute in routes) {
         NavigationBar(
-            modifier = Modifier.windowInsetsBottomHeight(
-                WindowInsets.navigationBars.add(WindowInsets(bottom = 56.dp))
-            ),
-            containerColor = yellow200
+            containerColor = MaterialTheme.colorScheme.primary
         ) {
             tabs.forEach { tab ->
+                val selected = currentRoute == tab.route
                 NavigationBarItem(
-                    icon = { Icon(painterResource(tab.icon), contentDescription = null) },
-                    label = { Text(stringResource(tab.title).uppercase(Locale.getDefault())) },
-                    selected = currentRoute == tab.route,
+                    icon = { 
+                        Icon(
+                            painter = painterResource(tab.icon), 
+                            contentDescription = null
+                        ) 
+                    },
+                    label = { 
+                        Text(
+                            text = stringResource(tab.title),
+                            style = MaterialTheme.typography.labelSmall
+                        ) 
+                    },
+                    selected = selected,
                     onClick = {
                         if (tab.route != currentRoute) {
                             navController.navigate(tab.route) {
@@ -81,13 +94,13 @@ fun MyBottomBar(navController: NavController, tabs: Array<ExpenseTabs>) {
                             }
                         }
                     },
-                    alwaysShowLabel = false,
-                    modifier = Modifier.navigationBarsPadding(),
+                    alwaysShowLabel = true,
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color.White,
-                        unselectedIconColor = Color.Gray,
-                        selectedTextColor = Color.White,
-                        indicatorColor = Color.Transparent
+                        selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                        unselectedIconColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                        unselectedTextColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f),
+                        indicatorColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
                     )
                 )
             }

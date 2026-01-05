@@ -12,17 +12,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 private val YellowThemeLight = lightColorScheme(
-    primary = yellow500,
-    onPrimary = Color.Black,
-    secondary = yellow200,
-    onSecondary = Color.White
+    primary = PrimaryYellow,
+    onPrimary = OnPrimaryBlack,
+    secondary = SecondaryYellow,
+    onSecondary = OnPrimaryBlack,
+    background = BackgroundCream,
+    onBackground = OnSurfaceDark,
+    surface = SurfaceWhite,
+    onSurface = OnSurfaceDark,
+    surfaceVariant = Color(0xFFF0F0F0),
+    onSurfaceVariant = Color(0xFF49454F)
 )
 
 private val YellowThemeDark = darkColorScheme(
-    primary = yellow200,
-    secondary = yellow200,
-    onSecondary = Color.Black,
-    surface = yellowDarkPrimary
+    primary = PrimaryYellow,
+    onPrimary = OnPrimaryBlack,
+    secondary = SecondaryYellow,
+    onSecondary = OnPrimaryBlack,
+    background = Color(0xFF1C1B1F),
+    onBackground = Color(0xFFE6E1E5),
+    surface = Color(0xFF1C1B1F),
+    onSurface = Color(0xFFE6E1E5)
 )
 
 @Composable
@@ -67,5 +77,3 @@ private fun OwlTheme(
         )
     }
 }
-
-
