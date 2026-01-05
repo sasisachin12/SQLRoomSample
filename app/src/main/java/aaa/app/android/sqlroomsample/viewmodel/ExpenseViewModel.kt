@@ -30,8 +30,8 @@ data class AddExpenseUiState(
         getCurrentDate() + " " + getCurrentTime(),
         "$DATE_FORMAT_ONE $TIME_FORMAT_ONE"
     ),
-    val expense: String = "food",
-    val amount: String = "0",
+    val expense: String = "",
+    val amount: String = "",
     var isCompleted: Boolean = false
 )
 
@@ -43,7 +43,7 @@ class ExpenseViewModel @Inject constructor(
 
 
     private val _uiState = MutableStateFlow(AddExpenseUiState())
-    private val uiState: StateFlow<AddExpenseUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<AddExpenseUiState> = _uiState.asStateFlow()
 
 
     val expenseList: StateFlow<MyModelUiState> = expenseRepository
@@ -79,6 +79,8 @@ class ExpenseViewModel @Inject constructor(
                 uiState.value.amount
             )
             expenseRepository.addExpense(expenseInfo)
+            // Reset state after adding
+            _uiState.value = AddExpenseUiState()
         } catch (e: Exception) {
             Log.e("createNewTask: ", e.message.toString())
         }
@@ -105,6 +107,3 @@ sealed interface MyModelUiState {
     data class Error(val throwable: Throwable) : MyModelUiState
     data class Success(val data: List<ExpenseInfo>) : MyModelUiState
 }
-
-
-
