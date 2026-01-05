@@ -9,8 +9,6 @@ import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentDate
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentTime
-import aaa.app.android.sqlroomsample.viewmodel.MyModelUiState.Loading
-import aaa.app.android.sqlroomsample.viewmodel.MyModelUiState.Success
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -51,9 +49,9 @@ class ExpenseViewModel @Inject constructor(
 
 
     val expenseList: StateFlow<MyModelUiState> = getExpensesUseCase()
-        .map<List<Expense>, MyModelUiState> { Success(data = it) }
+        .map<List<Expense>, MyModelUiState> { MyModelUiState.Success(data = it) }
         .catch { emit(MyModelUiState.Error(it)) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MyModelUiState.Loading)
 
 
     fun updateExpense(expense: String) {
@@ -106,12 +104,12 @@ class ExpenseViewModel @Inject constructor(
 
 
     fun deleteRecord(expense: Expense) {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 deleteExpenseUseCase(expense)
+            } catch (e: Exception) {
+                Log.e("deleteRecord: ", e.message.toString())
             }
-        } catch (e: Exception) {
-            Log.e("deleteRecord: ", e.message.toString())
         }
     }
 
@@ -119,7 +117,7 @@ class ExpenseViewModel @Inject constructor(
 }
 
 sealed interface MyModelUiState {
-    object Loading : MyModelUiState
+    data object Loading : MyModelUiState
     data class Error(val throwable: Throwable) : MyModelUiState
     data class Success(val data: List<Expense>) : MyModelUiState
 }
