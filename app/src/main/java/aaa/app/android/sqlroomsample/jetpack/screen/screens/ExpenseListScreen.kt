@@ -1,7 +1,7 @@
 package aaa.app.android.sqlroomsample.jetpack.screen.screens
 
 import aaa.app.android.sqlroomsample.R
-import aaa.app.android.sqlroomsample.entity.ExpenseInfo
+import aaa.app.android.sqlroomsample.domain.model.Expense
 import aaa.app.android.sqlroomsample.util.Utils.convertLongToTime
 import aaa.app.android.sqlroomsample.util.Utils.convertMillisToDate
 import aaa.app.android.sqlroomsample.util.Utils.numberToRupees
@@ -286,7 +286,7 @@ fun MonthSummaryHeader(monthYear: String, total: Int) {
 }
 
 @Composable
-fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> Unit) {
+fun ExpenseItemRow(expenseItem: Expense, deleteClick: (Expense) -> Unit) {
     var isClicked by remember { mutableStateOf(false) }
 
     Column(
@@ -327,13 +327,13 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
 
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = expenseInfoItem.expense,
+                        text = expenseItem.expense,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 1
                     )
                     Text(
-                        text = convertLongToTime(expenseInfoItem.date),
+                        text = convertLongToTime(expenseItem.date),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -341,7 +341,7 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
 
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = numberToRupees(expenseInfoItem.amount.toIntOrNull() ?: 0),
+                        text = numberToRupees(expenseItem.amount.toIntOrNull() ?: 0),
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.ExtraBold,
                             color = MaterialTheme.colorScheme.error
@@ -369,7 +369,7 @@ fun ExpenseItemRow(expenseInfoItem: ExpenseInfo, deleteClick: (ExpenseInfo) -> U
         ConfirmDialog(
             title = "Delete Transaction",
             content = "Are you sure you want to permanently delete this expense?",
-            onConfirm = { deleteClick(expenseInfoItem) },
+            onConfirm = { deleteClick(expenseItem) },
             onDismiss = { isClicked = false }
         )
     }

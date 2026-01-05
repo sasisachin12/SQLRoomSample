@@ -1,9 +1,12 @@
 package aaa.app.android.sqlroomsample.di
 
 import aaa.app.android.sqlroomsample.dao.TaskDao
-import aaa.app.android.sqlroomsample.data.DefaultExpenseRepository
-import aaa.app.android.sqlroomsample.data.ExpenseRepository
+import aaa.app.android.sqlroomsample.data.repository.ExpenseRepositoryImpl
 import aaa.app.android.sqlroomsample.db.ToDoDatabase
+import aaa.app.android.sqlroomsample.domain.repository.ExpenseRepository
+import aaa.app.android.sqlroomsample.domain.use_case.AddExpenseUseCase
+import aaa.app.android.sqlroomsample.domain.use_case.DeleteExpenseUseCase
+import aaa.app.android.sqlroomsample.domain.use_case.GetExpensesUseCase
 import android.app.Application
 import androidx.room.Room
 import dagger.Module
@@ -29,10 +32,28 @@ object AppModule {
     @Provides
     @Singleton
     fun provideExpenseRepository(taskDao: TaskDao): ExpenseRepository {
-        return DefaultExpenseRepository(taskDao)
+        return ExpenseRepositoryImpl(taskDao)
     }
 
     @Singleton
     @Provides
     fun provideExpenseDao(database: ToDoDatabase): TaskDao = database.taskDao()
+
+    @Provides
+    @Singleton
+    fun provideGetExpensesUseCase(repository: ExpenseRepository): GetExpensesUseCase {
+        return GetExpensesUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddExpenseUseCase(repository: ExpenseRepository): AddExpenseUseCase {
+        return AddExpenseUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteExpenseUseCase(repository: ExpenseRepository): DeleteExpenseUseCase {
+        return DeleteExpenseUseCase(repository)
+    }
 }
