@@ -1,6 +1,6 @@
-package aaa.app.android.sqlroomsample.entity
+package aaa.app.android.sqlroomsample.domain.model
 
-data class ExpenseInfo(
+data class Expense(
     val id: Int?,
     val date: Long,
     val expense: String,

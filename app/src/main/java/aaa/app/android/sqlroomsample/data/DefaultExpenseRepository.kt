@@ -1,42 +1,46 @@
 package aaa.app.android.sqlroomsample.data
 
 import aaa.app.android.sqlroomsample.dao.TaskDao
-import aaa.app.android.sqlroomsample.di.ApplicationScope
-import aaa.app.android.sqlroomsample.di.DefaultDispatcher
+import aaa.app.android.sqlroomsample.data.local.entity.ExpenseEntity
 import aaa.app.android.sqlroomsample.entity.ExpenseInfo
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
-import java.util.UUID
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class DefaultExpenseRepository @Inject constructor(
-
-    private val localDataSource: TaskDao,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-    @ApplicationScope private val scope: CoroutineScope,
+    private val taskDao: TaskDao
 ) : ExpenseRepository {
 
-    override suspend fun addExpense(
-        expenseInfo: ExpenseInfo
-    ): String {
-
-        val taskId = withContext(dispatcher) {
-            UUID.randomUUID().toString()
+    override val expenseList: Flow<List<ExpenseInfo>> = taskDao.getExpenses().map { list ->
+        list.map { entity ->
+            ExpenseInfo(
+                id = entity.id,
+                date = entity.date,
+                expense = entity.expense,
+                amount = entity.amount
+            )
         }
-        localDataSource.upsert(expenseInfo)
-        return taskId
     }
 
-
-    override val expenseList: Flow<List<ExpenseInfo>> = localDataSource.getAll()
-
-    override suspend fun deleteTask(taskId: ExpenseInfo) {
-        localDataSource.deleteById(taskId)
-
+    override suspend fun addExpense(expense: ExpenseInfo) {
+        taskDao.insertExpense(
+            ExpenseEntity(
+                id = expense.id,
+                date = expense.date,
+                expense = expense.expense,
+                amount = expense.amount
+            )
+        )
     }
 
+    override suspend fun deleteTask(expense: ExpenseInfo) {
+        taskDao.deleteExpense(
+            ExpenseEntity(
+                id = expense.id,
+                date = expense.date,
+                expense = expense.expense,
+                amount = expense.amount
+            )
+        )
+    }
 }
