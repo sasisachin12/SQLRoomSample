@@ -70,6 +70,12 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
+    fun resetCompleted() {
+        _uiState.update {
+            it.copy(isCompleted = false)
+        }
+    }
+
     fun addExpense() = viewModelScope.launch {
         try {
             val expenseInfo = ExpenseInfo(
@@ -79,8 +85,14 @@ class ExpenseViewModel @Inject constructor(
                 uiState.value.amount
             )
             expenseRepository.addExpense(expenseInfo)
-            // Reset state after adding
-            _uiState.value = AddExpenseUiState()
+            // Show success message
+            _uiState.update { 
+                it.copy(
+                    isCompleted = true,
+                    expense = "",
+                    amount = ""
+                ) 
+            }
         } catch (e: Exception) {
             Log.e("createNewTask: ", e.message.toString())
         }

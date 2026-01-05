@@ -35,12 +35,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,15 +56,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @Composable
 fun AddMyExpenseScreen(
     modifier: Modifier = Modifier,
     viewModel: ExpenseViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(uiState.isCompleted) {
+        if (uiState.isCompleted) {
+            // Launching a separate job to show the snackbar indefinitely and then dismiss it after 30 seconds
+            val job = launch {
+                snackbarHostState.showSnackbar(
+                    message = "Expense added successfully",
+                    duration = SnackbarDuration.Indefinite
+                )
+            }
+            delay(30000) // 30 seconds delay
+            job.cancel() // Dismiss the snackbar
+            viewModel.resetCompleted()
+        }
+    }
 
     Column(
         modifier = modifier
@@ -116,6 +137,7 @@ fun AddMyExpense(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+    var showError by remember { mutableStateOf(false) }
 
     val calendar = Calendar.getInstance().apply { timeInMillis = uiState.date }
 
@@ -135,11 +157,15 @@ fun AddMyExpense(
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.expense,
-                onValueChange = onExpenseDescription,
+                onValueChange = {
+                    onExpenseDescription(it)
+                    showError = false
+                },
                 label = { Text("What did you spend on?") },
                 placeholder = { Text("e.g. Grocery, Coffee") },
                 leadingIcon = { Icon(Icons.Default.Description, contentDescription = null) },
                 singleLine = true,
+                isError = showError && uiState.expense.isBlank(),
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = MaterialTheme.colorScheme.primary,
@@ -150,18 +176,31 @@ fun AddMyExpense(
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.amount,
-                onValueChange = onExpenseAmount,
+                onValueChange = {
+                    onExpenseAmount(it)
+                    showError = false
+                },
                 label = { Text("How much?") },
                 placeholder = { Text("0.00") },
                 leadingIcon = { Icon(Icons.Default.Payments, contentDescription = null) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
+                isError = showError && uiState.amount.isBlank(),
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant
                 )
             )
+
+            if (showError && (uiState.expense.isBlank() || uiState.amount.isBlank())) {
+                Text(
+                    text = "Please enter both description and amount",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.align(Alignment.Start)
+                )
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -213,7 +252,14 @@ fun AddMyExpense(
             Spacer(modifier = Modifier.height(8.dp))
 
             Button(
-                onClick = onSaveClick,
+                onClick = {
+                    if (uiState.expense.isNotBlank() && uiState.amount.isNotBlank()) {
+                        onSaveClick()
+                        showError = false
+                    } else {
+                        showError = true
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),

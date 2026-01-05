@@ -11,11 +11,15 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
@@ -27,15 +31,26 @@ fun ExpenseApp(finishActivity: () -> Unit) {
     YellowTheme {
         val tabs = remember { ExpenseTabs.entries.toTypedArray() }
         val navController = rememberNavController()
+        val snackbarHostState = remember { SnackbarHostState() }
         Scaffold(
             topBar = { ExpenseAppBar(stringResource(R.string.expense)) },
             containerColor = MaterialTheme.colorScheme.background,
-            bottomBar = { MyBottomBar(navController = navController, tabs) }
+            bottomBar = { MyBottomBar(navController = navController, tabs) },
+            snackbarHost = { 
+                SnackbarHost(hostState = snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = Color(0xFF4CAF50), // Green color
+                        contentColor = Color.White,
+                        snackbarData = data
+                    )
+                }
+            }
         ) { innerPaddingModifier ->
             NavGraph(
                 finishActivity = finishActivity,
                 navController = navController,
-                modifier = Modifier.padding(innerPaddingModifier)
+                modifier = Modifier.padding(innerPaddingModifier),
+                snackbarHostState = snackbarHostState
             )
         }
     }

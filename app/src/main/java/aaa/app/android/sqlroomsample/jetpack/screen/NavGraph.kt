@@ -1,8 +1,11 @@
 package aaa.app.android.sqlroomsample.jetpack.screen
 
 import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseTabs
-import aaa.app.android.sqlroomsample.jetpack.screen.screens.courses
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.AddMyExpenseScreen
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.ExpenseListScreen
+import aaa.app.android.sqlroomsample.jetpack.screen.screens.SettingsScreen
 import androidx.activity.compose.BackHandler
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +35,8 @@ fun NavGraph(
     finishActivity: () -> Unit = {},
     navController: NavHostController = rememberNavController(),
     startDestination: String = MainDestinations.COURSES_ROUTE,
-    showOnboardingInitially: Boolean = true
+    showOnboardingInitially: Boolean = true,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     // Onboarding could be read from shared preferences.
     val onboardingComplete = remember(showOnboardingInitially) {
@@ -64,9 +68,15 @@ fun NavGraph(
             route = MainDestinations.COURSES_ROUTE,
             startDestination = ExpenseTabs.EXPENSE_LIST.route
         ) {
-            courses(
-                modifier = modifier
-            )
+            composable(ExpenseTabs.EXPENSE_LIST.route) {
+                ExpenseListScreen()
+            }
+            composable(ExpenseTabs.ADD_EXPENSE.route) {
+                AddMyExpenseScreen(snackbarHostState = snackbarHostState)
+            }
+            composable(ExpenseTabs.SETTINGS.route) {
+                SettingsScreen(modifier)
+            }
         }
 
     }
