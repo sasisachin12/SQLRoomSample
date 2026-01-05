@@ -1,14 +1,14 @@
 package aaa.app.android.sqlroomsample.viewmodel
 
-import aaa.app.android.sqlroomsample.data.ExpenseRepository
-import aaa.app.android.sqlroomsample.entity.ExpenseInfo
+import aaa.app.android.sqlroomsample.domain.model.Expense
+import aaa.app.android.sqlroomsample.domain.use_case.AddExpenseUseCase
+import aaa.app.android.sqlroomsample.domain.use_case.DeleteExpenseUseCase
+import aaa.app.android.sqlroomsample.domain.use_case.GetExpensesUseCase
 import aaa.app.android.sqlroomsample.util.APPConstant.DATE_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.APPConstant.TIME_FORMAT_ONE
 import aaa.app.android.sqlroomsample.util.Utils.convertDateToLong
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentDate
 import aaa.app.android.sqlroomsample.util.Utils.getCurrentTime
-import aaa.app.android.sqlroomsample.viewmodel.MyModelUiState.Loading
-import aaa.app.android.sqlroomsample.viewmodel.MyModelUiState.Success
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,7 +38,9 @@ data class AddExpenseUiState(
 
 @HiltViewModel
 class ExpenseViewModel @Inject constructor(
-    private val expenseRepository: ExpenseRepository
+    private val getExpensesUseCase: GetExpensesUseCase,
+    private val addExpenseUseCase: AddExpenseUseCase,
+    private val deleteExpenseUseCase: DeleteExpenseUseCase
 ) : ViewModel() {
 
 
@@ -46,10 +48,10 @@ class ExpenseViewModel @Inject constructor(
     val uiState: StateFlow<AddExpenseUiState> = _uiState.asStateFlow()
 
 
-    val expenseList: StateFlow<MyModelUiState> = expenseRepository
-        .expenseList.map<List<ExpenseInfo>, MyModelUiState> { Success(data = it) }
+    val expenseList: StateFlow<MyModelUiState> = getExpensesUseCase()
+        .map<List<Expense>, MyModelUiState> { MyModelUiState.Success(data = it) }
         .catch { emit(MyModelUiState.Error(it)) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Loading)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MyModelUiState.Loading)
 
 
     fun updateExpense(expense: String) {
@@ -78,13 +80,13 @@ class ExpenseViewModel @Inject constructor(
 
     fun addExpense() = viewModelScope.launch {
         try {
-            val expenseInfo = ExpenseInfo(
+            val expense = Expense(
                 id = null,
                 uiState.value.date,
                 uiState.value.expense,
                 uiState.value.amount
             )
-            expenseRepository.addExpense(expenseInfo)
+            addExpenseUseCase(expense)
             // Show success message
             _uiState.update { 
                 it.copy(
@@ -101,13 +103,13 @@ class ExpenseViewModel @Inject constructor(
 
 
 
-    fun deleteRecord(id: ExpenseInfo) {
-        try {
-            viewModelScope.launch {
-                expenseRepository.deleteTask(id)
+    fun deleteRecord(expense: Expense) {
+        viewModelScope.launch {
+            try {
+                deleteExpenseUseCase(expense)
+            } catch (e: Exception) {
+                Log.e("deleteRecord: ", e.message.toString())
             }
-        } catch (e: Exception) {
-            Log.e("deleteRecord: ", e.message.toString())
         }
     }
 
@@ -115,7 +117,7 @@ class ExpenseViewModel @Inject constructor(
 }
 
 sealed interface MyModelUiState {
-    object Loading : MyModelUiState
+    data object Loading : MyModelUiState
     data class Error(val throwable: Throwable) : MyModelUiState
-    data class Success(val data: List<ExpenseInfo>) : MyModelUiState
+    data class Success(val data: List<Expense>) : MyModelUiState
 }
