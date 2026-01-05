@@ -50,7 +50,7 @@ fun ExpenseApp(finishActivity: () -> Unit) {
                 finishActivity = finishActivity,
                 navController = navController,
                 modifier = Modifier.padding(innerPaddingModifier),
-                snackbarHostState = snackbarHostState
+                snackBarHostState = snackbarHostState
             )
         }
     }

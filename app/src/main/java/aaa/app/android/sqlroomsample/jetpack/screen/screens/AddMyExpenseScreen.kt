@@ -3,10 +3,13 @@ package aaa.app.android.sqlroomsample.jetpack.screen.screens
 import aaa.app.android.sqlroomsample.jetpack.screen.theme.YellowTheme
 import aaa.app.android.sqlroomsample.util.Utils.convertMillisToDate
 import aaa.app.android.sqlroomsample.util.Utils.formattedTime
+import aaa.app.android.sqlroomsample.util.Utils.numberToRupees
 import aaa.app.android.sqlroomsample.viewmodel.AddExpenseUiState
 import aaa.app.android.sqlroomsample.viewmodel.ExpenseViewModel
+import aaa.app.android.sqlroomsample.viewmodel.MyModelUiState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,11 +17,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Payments
@@ -58,7 +63,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun AddMyExpenseScreen(
@@ -67,6 +75,7 @@ fun AddMyExpenseScreen(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val expenseListState by viewModel.expenseList.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
     LaunchedEffect(uiState.isCompleted) {
@@ -93,6 +102,38 @@ fun AddMyExpenseScreen(
         verticalArrangement = Arrangement.Top
     ) {
         AddMyExpenseHeader()
+
+        if (expenseListState is MyModelUiState.Success) {
+            val data = (expenseListState as MyModelUiState.Success).data
+            
+            val totalOnSelectedDate = data
+                .filter { convertMillisToDate(it.date) == convertMillisToDate(uiState.date) }
+                .sumOf { it.amount.toIntOrNull() ?: 0 }
+
+            val selectedCalendar = Calendar.getInstance().apply { timeInMillis = uiState.date }
+            val totalInSelectedMonth = data
+                .filter {
+                    val expenseCalendar = Calendar.getInstance().apply { timeInMillis = it.date }
+                    expenseCalendar.get(Calendar.MONTH) == selectedCalendar.get(Calendar.MONTH) &&
+                            expenseCalendar.get(Calendar.YEAR) == selectedCalendar.get(Calendar.YEAR)
+                }
+                .sumOf { it.amount.toIntOrNull() ?: 0 }
+
+            val monthName = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(Date(uiState.date))
+
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(0.dp)
+            ) {
+                Box(modifier = Modifier.weight(1f)) {
+                    DailyTotalSection(totalOnSelectedDate, convertMillisToDate(uiState.date))
+                }
+                Box(modifier = Modifier.weight(1f)) {
+                    MonthlyTotalSection(totalInSelectedMonth, monthName)
+                }
+            }
+        }
+
         AddMyExpense(
             uiState = uiState,
             onExpenseDescription = viewModel::updateExpense,
@@ -123,6 +164,80 @@ fun AddMyExpenseHeader() {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
+    }
+}
+
+@Composable
+fun DailyTotalSection(total: Int, date: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Payments,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp)
+            )
+            Text(
+                text = "Spent on $date",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary,
+                maxLines = 1
+            )
+            Text(
+                text = numberToRupees(total),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+    }
+}
+
+@Composable
+fun MonthlyTotalSection(total: Int, month: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f)
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.AccountBalanceWallet,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.size(24.dp)
+            )
+            Text(
+                text = "Total in $month",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.secondary,
+                maxLines = 1
+            )
+            Text(
+                text = numberToRupees(total),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        }
     }
 }
 

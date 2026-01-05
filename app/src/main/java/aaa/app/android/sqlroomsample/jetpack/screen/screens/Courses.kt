@@ -21,19 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-fun NavGraphBuilder.courses(
-    modifier: Modifier = Modifier
-) {
-    composable(ExpenseTabs.EXPENSE_LIST.route) { from ->
-        ExpenseListScreen()
-    }
-    composable(ExpenseTabs.ADD_EXPENSE.route) { from ->
-        AddMyExpenseScreen(modifier)
-    }
-    composable(ExpenseTabs.SETTINGS.route) {
-        SettingsScreen(modifier)
-    }
-}
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,22 +43,6 @@ fun ExpenseAppBar(title: String) {
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-        },
-        navigationIcon = {
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Menu"
-                )
-            }
         },
         scrollBehavior = scrollBehavior
     )
