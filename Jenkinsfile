@@ -55,10 +55,8 @@ pipeline {
             echo 'Build Failed. Checking logs...'
         }
         always {
-            steps {
-                echo 'Cleaning up workspace...'
-                // deleteDir()
-            }
+            echo 'Cleaning up workspace...'
+            // deleteDir()
         }
     }
 }
