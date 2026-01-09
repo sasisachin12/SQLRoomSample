@@ -32,7 +32,7 @@ data class AddExpenseUiState(
     ),
     val expense: String = "",
     val amount: String = "",
-    var isCompleted: Boolean = false
+    val isCompleted: Boolean = false
 )
 
 
@@ -80,25 +80,29 @@ class ExpenseViewModel @Inject constructor(
 
     fun addExpense() = viewModelScope.launch {
         try {
-            val expense = Expense(
-                id = null,
-                uiState.value.date,
-                uiState.value.expense,
-                uiState.value.amount
-            )
-            addExpenseUseCase(expense)
-            // Show success message
-            _uiState.update { 
-                it.copy(
-                    isCompleted = true,
-                    expense = "",
-                    amount = ""
-                ) 
+            val currentState = _uiState.value
+            if (currentState.expense.isNotBlank() && currentState.amount.isNotBlank()) {
+                val expense = Expense(
+                    id = null,
+                    date = currentState.date,
+                    expense = currentState.expense,
+                    amount = currentState.amount
+                )
+                Log.d("ExpenseViewModel", "Saving expense: $expense")
+                addExpenseUseCase(expense)
+                
+                // Clear state after successful save
+                _uiState.update { 
+                    it.copy(
+                        isCompleted = true,
+                        expense = "",
+                        amount = ""
+                    ) 
+                }
             }
         } catch (e: Exception) {
-            Log.e("createNewTask: ", e.message.toString())
+            Log.e("ExpenseViewModel", "Error saving expense: ${e.message}")
         }
-
     }
 
 

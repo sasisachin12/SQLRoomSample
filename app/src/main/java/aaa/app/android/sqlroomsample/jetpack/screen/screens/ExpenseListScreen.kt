@@ -77,7 +77,8 @@ fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
     val itemsState by viewModel.expenseList.collectAsStateWithLifecycle()
 
     if (itemsState is MyModelUiState.Success) {
-        val data = (itemsState as MyModelUiState.Success).data.sortedBy { it.date }
+        // Sort data in descending order by date for the list
+        val data = (itemsState as MyModelUiState.Success).data.sortedByDescending { it.date }
         
         val monthYearFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         val groupedByMonth = data.groupBy { monthYearFormat.format(Date(it.date)) }
@@ -93,9 +94,12 @@ fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
                 }
             } else {
                 item {
-                    val monthlyTotals = groupedByMonth.mapValues { entry ->
-                        entry.value.sumOf { it.amount.toIntOrNull() ?: 0 }
-                    }
+                    // For the chart, we keep the data in ascending order to show chronological progress
+                    val monthlyTotals = data.sortedBy { it.date }
+                        .groupBy { monthYearFormat.format(Date(it.date)) }
+                        .mapValues { entry ->
+                            entry.value.sumOf { it.amount.toIntOrNull() ?: 0 }
+                        }
                     MonthlyExpenseChart(monthlyTotals)
                 }
 
@@ -106,6 +110,7 @@ fun ExpenseList(viewModel: ExpenseViewModel = hiltViewModel()) {
                         MonthSummaryHeader(monthYear, monthTotal)
                     }
 
+                    // Group by day - since monthExpenses is already descending, this will stay descending
                     val groupedByDay = monthExpenses.groupBy { convertMillisToDate(it.date) }
                     
                     groupedByDay.forEach { (date, dayExpenses) ->
