@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        ANDROID_HOME = "/opt/android-sdk"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -34,8 +38,6 @@ pipeline {
 
         stage('Build Release APK') {
             steps {
-                // Note: For release builds, you usually need signing configs set up in build.gradle
-                // or passed via environment variables.
                 sh './gradlew assembleRelease'
             }
         }
@@ -49,11 +51,9 @@ pipeline {
         failure {
             echo 'Build Failed. Checking logs...'
         }
-        post {
-                always {
-                    echo 'Pipeline finished.'
-                    cleanWs()
-                }
-            }
+        always {
+            echo 'Pipeline finished.'
+            cleanWs()
+        }
     }
 }
