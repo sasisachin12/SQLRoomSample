@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        ANDROID_HOME = "/opt/android-sdk" // Adjust this to your Jenkins node's SDK path
-        JAVA_HOME = "${tool 'JAVA_17_HOME'}" // Adjust 'JAVA_17_HOME' to your Jenkins Tool name
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -54,9 +49,11 @@ pipeline {
         failure {
             echo 'Build Failed. Checking logs...'
         }
-        always {
-            echo 'Cleaning up workspace...'
-            // deleteDir()
-        }
+        post {
+                always {
+                    echo 'Pipeline finished.'
+                    cleanWs()
+                }
+            }
     }
 }
