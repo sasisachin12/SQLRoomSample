@@ -291,14 +291,17 @@ fun AddMyExpense(
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.amount,
-                onValueChange = {
-                    onExpenseAmount(it)
-                    showError = false
+                onValueChange = { input ->
+                    // Allow numeric characters and a single decimal point
+                    if (input.isEmpty() || input.matches(Regex("^\\d*\\.?\\d*\$"))) {
+                        onExpenseAmount(input)
+                        showError = false
+                    }
                 },
                 label = { Text("How much?") },
                 placeholder = { Text("0.00") },
                 leadingIcon = { Icon(Icons.Default.Payments, contentDescription = null) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 singleLine = true,
                 isError = showError && uiState.amount.isBlank(),
                 shape = RoundedCornerShape(12.dp),

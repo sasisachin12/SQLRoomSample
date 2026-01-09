@@ -32,7 +32,7 @@ data class AddExpenseUiState(
     ),
     val expense: String = "",
     val amount: String = "",
-    var isCompleted: Boolean = false
+    val isCompleted: Boolean = false
 )
 
 
@@ -96,9 +96,8 @@ class ExpenseViewModel @Inject constructor(
                 ) 
             }
         } catch (e: Exception) {
-            Log.e("createNewTask: ", e.message.toString())
+            Log.e("ExpenseViewModel", "Error saving expense: ${e.message}")
         }
-
     }
 
 
