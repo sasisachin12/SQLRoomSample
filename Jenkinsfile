@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
-        ANDROID_HOME = "/opt/android-sdk"
+        // You can set these globally in Jenkins, but defining them here ensures they are available
+        // Note: Change these paths to match your Jenkins Node's actual locations
+        ANDROID_HOME = "${env.ANDROID_HOME ?: '/opt/android-sdk'}"
     }
 
     stages {
@@ -12,9 +14,11 @@ pipeline {
             }
         }
 
-        stage('Set Permissions') {
+        stage('Setup Environment') {
             steps {
                 sh 'chmod +x gradlew'
+                // Create local.properties dynamically if it's missing to satisfy Gradle
+                sh "echo \"sdk.dir=$ANDROID_HOME\" > local.properties"
             }
         }
 
