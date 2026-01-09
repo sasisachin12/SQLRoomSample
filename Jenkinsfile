@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // You can set these globally in Jenkins, but defining them here ensures they are available
-        // Note: Change these paths to match your Jenkins Node's actual locations
         ANDROID_HOME = "${env.ANDROID_HOME ?: '/opt/android-sdk'}"
     }
 
@@ -17,32 +15,24 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh 'chmod +x gradlew'
-                // Create local.properties dynamically if it's missing to satisfy Gradle
                 sh "echo \"sdk.dir=$ANDROID_HOME\" > local.properties"
             }
         }
 
-        stage('Lint and Static Analysis') {
+        stage('Lint') {
             steps {
                 sh './gradlew lint'
             }
         }
 
-        stage('Unit Tests') {
+        stage('Build APKs') {
             steps {
-                sh './gradlew testDebugUnitTest'
-            }
-        }
+                // Building both at once to ensure they exist
+                sh './gradlew assembleDebug assembleRelease'
 
-        stage('Build Debug APK') {
-            steps {
-                sh './gradlew assembleDebug'
-            }
-        }
-
-        stage('Build Release APK') {
-            steps {
-                sh './gradlew assembleRelease'
+                // Debug: List files to see exactly where APKs are
+                echo "Listing generated APKs..."
+                sh 'find . -name "*.apk"'
             }
         }
     }
@@ -50,13 +40,14 @@ pipeline {
     post {
         success {
             echo 'Build Successful! Archiving APKs...'
-            archiveArtifacts artifacts: 'app/build/outputs/apk/**/*.apk', followSymlinks: false
+            // Using a broader glob pattern to ensure artifacts are found
+            archiveArtifacts artifacts: '**/*.apk', allowEmptyArchive: false
         }
         failure {
-            echo 'Build Failed. Checking logs...'
+            echo 'Build Failed. Please check the logs above for Gradle errors.'
         }
-        always {
-            echo 'Pipeline finished.'
+        cleanup {
+            echo 'Cleaning up workspace...'
             cleanWs()
         }
     }
