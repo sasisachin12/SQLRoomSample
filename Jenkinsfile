@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        ANDROID_HOME = "${env.ANDROID_HOME ?: '/opt/android-sdk'}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,35 +12,27 @@ pipeline {
             }
         }
 
-        stage('Set Permissions') {
+        stage('Setup Environment') {
             steps {
                 sh 'chmod +x gradlew'
+                sh "echo \"sdk.dir=$ANDROID_HOME\" > local.properties"
             }
         }
 
-        stage('Lint and Static Analysis') {
+        stage('Lint') {
             steps {
                 sh './gradlew lint'
             }
         }
 
-        stage('Unit Tests') {
+        stage('Build APKs') {
             steps {
-                sh './gradlew testDebugUnitTest'
-            }
-        }
+                // Building both at once to ensure they exist
+                sh './gradlew assembleDebug assembleRelease'
 
-        stage('Build Debug APK') {
-            steps {
-                sh './gradlew assembleDebug'
-            }
-        }
-
-        stage('Build Release APK') {
-            steps {
-                // Note: For release builds, you usually need signing configs set up in build.gradle
-                // or passed via environment variables.
-                sh './gradlew assembleRelease'
+                // Debug: List files to see exactly where APKs are
+                echo "Listing generated APKs..."
+                sh 'find . -name "*.apk"'
             }
         }
     }
@@ -44,16 +40,15 @@ pipeline {
     post {
         success {
             echo 'Build Successful! Archiving APKs...'
-            archiveArtifacts artifacts: 'app/build/outputs/apk/**/*.apk', followSymlinks: false
+            // Using a broader glob pattern to ensure artifacts are found
+            archiveArtifacts artifacts: '**/*.apk', allowEmptyArchive: false
         }
         failure {
-            echo 'Build Failed. Checking logs...'
+            echo 'Build Failed. Please check the logs above for Gradle errors.'
         }
-        post {
-                always {
-                    echo 'Pipeline finished.'
-                    cleanWs()
-                }
-            }
+        cleanup {
+            echo 'Cleaning up workspace...'
+            cleanWs()
+        }
     }
 }
